@@ -9,6 +9,8 @@ import streamlit as st
 import pandas as pd
 from PIL import Image
 
+from func import get_sentiment_score 
+
 # --------------------------
 # Config / Constants
 # --------------------------
@@ -93,6 +95,10 @@ def fetch_forecast_noon(city: str, api_key: str):
         return forecasts
     except Exception:
         return {}
+#--------------------------
+# Sentiment 
+# --------------------------
+
 
 # --------------------------
 # UI Helpers
@@ -251,6 +257,21 @@ def render_memo_section(data):
         st.success("気持ちを保存しました！")
 
 
+def render_sentiment_section():
+    today = str(date.today())
+    st.subheader("🧠 AI 感情スコア")
+    feelings = load_feelings()
+    memo = feelings.get(today, "")
+
+    if st.button("AIで今日の気持ちを分析する"):
+        if memo.strip():
+            sentiment = get_sentiment_score(memo)
+            st.write(f"**判定：** {sentiment['label']}")
+            st.write(f"**スコア：** {sentiment['mapped_score']} / 10")
+        else:
+            st.warning("メモが空です")
+
+
 
 
 # --------------------------
@@ -280,6 +301,8 @@ st.write("---")
 render_exercise_section()
 st.write("---")
 render_memo_section(daily)
+st.write("---")
+render_sentiment_section()
 
 
 
