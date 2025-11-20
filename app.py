@@ -241,6 +241,7 @@ def render_sleep_section():
 
 
 def render_memo_section(data):
+    st.subheader("📔 日記")
     today = str(date.today())
 
     # 保存されているメモを読み込み
@@ -259,7 +260,7 @@ def render_memo_section(data):
 
 def render_sentiment_section():
     today = str(date.today())
-    st.subheader("🧠 AI 感情スコア")
+    st.subheader("💞 AI 感情スコア")
     feelings = load_feelings()
     memo = feelings.get(today, "")
 
@@ -303,7 +304,6 @@ st.write("---")
 render_memo_section(daily)
 st.write("---")
 render_sentiment_section()
-
 
 
 save_json(DATA_FILE, all_data)
