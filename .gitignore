@@ -205,3 +205,12 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+
+# App
+daily_data.json
+exercise_logs.csv
+feelings.json
+mental_logs.csv
+reimu.jpeg
+sentiment_log.csv
+sleep_logs.csv

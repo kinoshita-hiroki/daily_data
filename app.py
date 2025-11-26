@@ -9,7 +9,8 @@ import streamlit as st
 import pandas as pd
 from PIL import Image
 
-from func import get_sentiment_score 
+import os
+from dotenv import load_dotenv
 
 # --------------------------
 # Config / Constants
@@ -63,6 +64,12 @@ def save_feelings(data):
 # --------------------------
 # Weather API
 # --------------------------
+def load_key():
+    load_dotenv()  # .env の読み込み
+
+    API_KEY = os.getenv("OPENWEATHER_API_KEY")
+    SECRET = os.getenv("SECRET_KEY")
+
 def fetch_current_weather(city: str, api_key: str):
     if not api_key:
         return None
@@ -95,9 +102,6 @@ def fetch_forecast_noon(city: str, api_key: str):
         return forecasts
     except Exception:
         return {}
-#--------------------------
-# Sentiment 
-# --------------------------
 
 
 # --------------------------
@@ -208,7 +212,7 @@ def render_exercise_section():
             st.success("更新しました")
             st.rerun()
     else:
-        minutes = st.number_input("今日の運動時間（分）", min_value=0, max_value=1440, value=30, step=5, key="ex_new")
+        minutes = st.number_input("今日の運動時間（分）", min_value=0, max_value=1440, value=0, step=5, key="ex_new")
         if st.button("記録する（運動）"):
             new = pd.DataFrame([{"date": today_iso, "minutes": int(minutes)}])
             df_ex = pd.concat([df_ex, new], ignore_index=True)
@@ -239,41 +243,32 @@ def render_sleep_section():
             st.success("記録しました")
             st.rerun()
 
+def render_feeling_regist():
 
-def render_memo_section(data):
-    st.subheader("📔 日記")
-    today = str(date.today())
+    try:
+        df = pd.read_csv("sentiment_log.csv")
+    except:
+        df = pd.DataFrame(columns=["日付", "対象", "事実", "感情", "詳細感情", "感想", "対処法"])
 
-    # 保存されているメモを読み込み
-    feelings = load_feelings()
-    default_text = feelings.get(today, "")
+    st.subheader("💞 感情の記録")
 
-    # テキストエリア
-    memo = st.text_area("気持ちを書き残す", value=default_text, height=120)
-
-    # 保存処理
-    if st.button("気持ちを保存する"):
-        feelings[today] = memo
-        save_feelings(feelings)
-        st.success("気持ちを保存しました！")
-
-
-def render_sentiment_section():
-    today = str(date.today())
-    st.subheader("💞 AI 感情スコア")
-    feelings = load_feelings()
-    memo = feelings.get(today, "")
-
-    if st.button("AIで今日の気持ちを分析する"):
-        if memo.strip():
-            sentiment = get_sentiment_score(memo)
-            st.write(f"**判定：** {sentiment['label']}")
-            st.write(f"**スコア：** {sentiment['mapped_score']} / 10")
-        else:
-            st.warning("メモが空です")
-
-
-
+    with st.form("記録フォーム"):
+        date = st.date_input("日付", datetime.today())
+        obj = st.text_input("対象", key="obj")
+        fact = st.text_area("事実", key="fact")
+        sentiment = st.selectbox("自分の感情（任意）", ["", "ポジティブ", "ニュートラル", "ネガティブ"], key="sentiment")
+        tag = st.text_input("詳細感情", key="tag")
+        feeling = st.text_area("どう感じた", key="feeling")
+        solution = st.text_area("対処法", key="solution")
+        
+        submitted = st.form_submit_button("記録する")
+                
+        
+        if submitted:
+            df = pd.concat([df, pd.DataFrame([[date, obj, fact, sentiment, tag, feeling, solution]], columns=df.columns)])
+            df.to_csv("sentiment_log.csv", index=False)
+            st.success("記録しました！")
+            
 
 # --------------------------
 # Main App
@@ -284,6 +279,7 @@ render_top_image_base64(TOP_IMAGE_PATH)
 
 st.title("🤐 My Daily Board")
 
+load_key()
 all_data = load_json(DATA_FILE)
 today_dt = date.today()
 today_key = iso(today_dt)
@@ -301,9 +297,7 @@ render_mental_section()
 st.write("---")
 render_exercise_section()
 st.write("---")
-render_memo_section(daily)
-st.write("---")
-render_sentiment_section()
+render_feeling_regist()
 
 
 save_json(DATA_FILE, all_data)
