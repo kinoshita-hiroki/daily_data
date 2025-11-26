@@ -20,7 +20,6 @@ MENTAL_CSV = "mental_logs.csv"
 EXERCISE_CSV = "exercise_logs.csv"
 SLEEP_CSV = "sleep_logs.csv"
 
-API_KEY = "***REMOVED***" # OpenWeatherMap API
 TOP_IMAGE_PATH = "reimu.jpeg"
 TOP_IMAGE_MAX_HEIGHT = 160  # px
 FEEL_PATH = "feelings.json"
