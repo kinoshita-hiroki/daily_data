@@ -255,7 +255,6 @@ def render_feeling_regist():
     try:
     # CSV 読み込み例（運動）
         df = load_encrypted_csv(ENCRYPT_SENTIMENT_CSV, fernet, columns=["日付", "対象", "事実", "感情", "詳細感情", "感想", "対処法"])
-
     except:
         df = pd.DataFrame(columns=["日付", "対象", "事実", "感情", "詳細感情", "感想", "対処法"])
 
@@ -275,7 +274,8 @@ def render_feeling_regist():
         
         if submitted:
             df = pd.concat([df, pd.DataFrame([[date, obj, fact, sentiment, tag, feeling, solution]], columns=df.columns)])
-            df.to_csv(SENTIMENT_CSV, index=False)
+            # 暗号化を解除したい場合
+            # df.to_csv(SENTIMENT_CSV, index=False)
             # 保存
             save_encrypted_csv(ENCRYPT_SENTIMENT_CSV, df, fernet)
             st.success("記録しました！")
