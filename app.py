@@ -12,6 +12,7 @@ from PIL import Image
 import os
 from dotenv import load_dotenv
 
+from encrypt_utils import get_fernet_from_env, load_encrypted_json, save_encrypted_json, load_encrypted_csv, save_encrypted_csv
 # --------------------------
 # Config / Constants
 # --------------------------
@@ -19,6 +20,8 @@ DATA_FILE = "daily_data.json"
 MENTAL_CSV = "mental_logs.csv"
 EXERCISE_CSV = "exercise_logs.csv"
 SLEEP_CSV = "sleep_logs.csv"
+SENTIMENT_CSV = "sentiment_logs.csv"
+ENCRYPT_SENTIMENT_CSV = "encrypt_sentiment_logs.csv"
 
 TOP_IMAGE_PATH = "reimu.jpeg"
 TOP_IMAGE_MAX_HEIGHT = 160  # px
@@ -60,6 +63,12 @@ def save_feelings(data):
     with open(FEEL_PATH, "w") as f:
         json.dump(data, f, ensure_ascii=False, indent=2)
 
+def get_fernet():
+    fernet = get_fernet_from_env()
+    if fernet is None:
+        st.warning("データ暗号化キーが設定されていません。環境変数 FERNET_KEY を設定してください。")
+        # ここで続行するか（非暗号化モード）止めるかはポリシー次第
+    return fernet
 # --------------------------
 # Weather API
 # --------------------------
@@ -67,7 +76,7 @@ def load_key():
     load_dotenv()  # .env の読み込み
 
     API_KEY = os.getenv("OPENWEATHER_API_KEY")
-    SECRET = os.getenv("SECRET_KEY")
+    return API_KEY
 
 def fetch_current_weather(city: str, api_key: str):
     if not api_key:
@@ -243,9 +252,10 @@ def render_sleep_section():
             st.rerun()
 
 def render_feeling_regist():
-
     try:
-        df = pd.read_csv("sentiment_log.csv")
+    # CSV 読み込み例（運動）
+        df = load_encrypted_csv(ENCRYPT_SENTIMENT_CSV, fernet, columns=["日付", "対象", "事実", "感情", "詳細感情", "感想", "対処法"])
+
     except:
         df = pd.DataFrame(columns=["日付", "対象", "事実", "感情", "詳細感情", "感想", "対処法"])
 
@@ -265,24 +275,30 @@ def render_feeling_regist():
         
         if submitted:
             df = pd.concat([df, pd.DataFrame([[date, obj, fact, sentiment, tag, feeling, solution]], columns=df.columns)])
-            df.to_csv("sentiment_log.csv", index=False)
+            df.to_csv(SENTIMENT_CSV, index=False)
+            # 保存
+            save_encrypted_csv(ENCRYPT_SENTIMENT_CSV, df, fernet)
             st.success("記録しました！")
             
 
 # --------------------------
 # Main App
 # --------------------------
-
 # トップ画像表示（Base64埋め込み・縦幅固定）
 render_top_image_base64(TOP_IMAGE_PATH)
 
 st.title("🤐 My Daily Board")
 
-load_key()
+API_KEY = load_key()
+fernet = get_fernet()
 all_data = load_json(DATA_FILE)
 today_dt = date.today()
 today_key = iso(today_dt)
 daily = all_data.setdefault(today_key, {"goal": "", "tasks": [], "memo": "", "city": "Tokushima", "weather": {}})
+
+
+# 読み込み
+#df_ex = load_encrypted_csv(EXERCISE_CSV, fernet, columns=["date","minutes"])
 
 
 render_weather_section(daily, today_dt)
