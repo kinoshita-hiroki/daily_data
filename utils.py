@@ -26,5 +26,12 @@ def load_csv(path, columns):
 def save_csv(df, path):
     df.to_csv(path, index=False)
 
+def append_or_update(df, date_str, col, value):
+    if date_str in df["date"].values:
+        df.loc[df["date"] == date_str, col] = value
+    else:
+        df.loc[len(df)] = [date_str, value]
+    return df
+
 def iso(d: date):
     return d.isoformat()
