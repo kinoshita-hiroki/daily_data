@@ -13,6 +13,8 @@ import os
 from dotenv import load_dotenv
 
 from encrypt_utils import get_fernet_from_env, load_encrypted_json, save_encrypted_json, load_encrypted_csv, save_encrypted_csv
+from utils import load_json, load_csv, iso, save_json,save_csv
+from weather_api import fetch_current_weather, fetch_forecast_noon
 # --------------------------
 # Config / Constants
 # --------------------------
@@ -27,41 +29,7 @@ TOP_IMAGE_PATH = "reimu.jpeg"
 TOP_IMAGE_MAX_HEIGHT = 160  # px
 FEEL_PATH = "feelings.json"
 
-# --------------------------
-# Utility Functions
-# --------------------------
-def load_json(path):
-    try:
-        with open(path, "r", encoding="utf-8") as f:
-            return json.load(f)
-    except FileNotFoundError:
-        return {}
 
-def save_json(path, obj):
-    with open(path, "w", encoding="utf-8") as f:
-        json.dump(obj, f, ensure_ascii=False, indent=2)
-
-def load_csv(path, columns):
-    if os.path.exists(path):
-        return pd.read_csv(path)
-    return pd.DataFrame(columns=columns)
-
-def save_csv(df, path):
-    df.to_csv(path, index=False)
-
-def iso(d: date):
-    return d.isoformat()
-
-def load_feelings():
-    try:
-        with open(FEEL_PATH, "r") as f:
-            return json.load(f)
-    except:
-        return {}
-
-def save_feelings(data):
-    with open(FEEL_PATH, "w") as f:
-        json.dump(data, f, ensure_ascii=False, indent=2)
 
 def get_fernet():
     fernet = get_fernet_from_env()
@@ -69,48 +37,12 @@ def get_fernet():
         st.warning("データ暗号化キーが設定されていません。環境変数 FERNET_KEY を設定してください。")
         # ここで続行するか（非暗号化モード）止めるかはポリシー次第
     return fernet
-# --------------------------
-# Weather API
-# --------------------------
+
 def load_key():
     load_dotenv()  # .env の読み込み
 
     API_KEY = os.getenv("OPENWEATHER_API_KEY")
     return API_KEY
-
-def fetch_current_weather(city: str, api_key: str):
-    if not api_key:
-        return None
-    url = f"https://api.openweathermap.org/data/2.5/weather?q={city}&appid={api_key}&units=metric&lang=ja"
-    try:
-        r = requests.get(url, timeout=5)
-        r.raise_for_status()
-        d = r.json()
-        return {"desc": d["weather"][0]["description"], "temp": d["main"]["temp"], "icon": d["weather"][0]["icon"]}
-    except Exception:
-        return None
-
-def fetch_forecast_noon(city: str, api_key: str):
-    if not api_key:
-        return {}
-    url = f"https://api.openweathermap.org/data/2.5/forecast?q={city}&appid={api_key}&units=metric&lang=ja"
-    try:
-        r = requests.get(url, timeout=5)
-        r.raise_for_status()
-        data = r.json()
-        forecasts = {}
-        for entry in data.get("list", []):
-            dt = datetime.fromtimestamp(entry["dt"])
-            if dt.hour == 12:
-                forecasts[dt.date().isoformat()] = {
-                    "desc": entry["weather"][0]["description"],
-                    "temp": entry["main"]["temp"],
-                    "icon": entry["weather"][0]["icon"]
-                }
-        return forecasts
-    except Exception:
-        return {}
-
 
 # --------------------------
 # UI Helpers
