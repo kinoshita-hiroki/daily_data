@@ -11,6 +11,7 @@ from utils import iso
 from datetime import date, datetime, timedelta
 from utils import load_json, load_csv, iso, save_json,save_csv, append_or_update
 import pandas as pd
+from crypt.encrypt_utils import save_encrypted_csv, load_encrypted_csv, get_fernet_from_env
 def load_key():
     load_dotenv()  # .env の読み込み
 
@@ -121,12 +122,19 @@ def render_daily_numeric_section(title, csv_path, column_name, min_val, max_val,
             df.to_csv(csv_path, index=False)
             st.success("記録しました")
             st.rerun()
+def get_fernet():
+    fernet = get_fernet_from_env()
+    if fernet is None:
+        st.warning("データ暗号化キーが設定されていません。環境変数 FERNET_KEY を設定してください。")
+        # ここで続行するか（非暗号化モード）止めるかはポリシー次第
+    return fernet
 
 def render_feeling_regist():
+    fernet = get_fernet()
     try:
     # CSV 読み込み例（運動）
-        df = load_encrypted_csv(ENCRYPT_SENTIMENT_CSV, fernet, columns=["日付", "対象", "事実", "感情", "詳細感情", "感想", "対処法"])
-    except:
+        df = load_encrypted_csv(config.ENCRYPT_SENTIMENT_CSV, fernet, columns=["日付", "対象", "事実", "感情", "詳細感情", "感想", "対処法"])
+    except Exception as e:
         df = pd.DataFrame(columns=["日付", "対象", "事実", "感情", "詳細感情", "感想", "対処法"])
 
     st.subheader("💞 感情の記録")
@@ -145,10 +153,8 @@ def render_feeling_regist():
         
         if submitted:
             df = pd.concat([df, pd.DataFrame([[date, obj, fact, sentiment, tag, feeling, solution]], columns=df.columns)])
-            # 暗号化を解除したい場合
-            # df.to_csv(SENTIMENT_CSV, index=False)
             # 保存
-            save_encrypted_csv(ENCRYPT_SENTIMENT_CSV, df, fernet)
+            save_encrypted_csv(config.ENCRYPT_SENTIMENT_CSV, df, fernet)
             st.success("記録しました！")
             
 API_KEY = load_key()

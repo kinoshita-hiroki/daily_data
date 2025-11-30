@@ -1,14 +1,17 @@
 # --------------------------
 # Config / Constants
 # --------------------------
-DATA_FILE = "daily_data.json"
-MENTAL_CSV = "mental_logs.csv"
-EXERCISE_CSV = "exercise_logs.csv"
-SLEEP_CSV = "sleep_logs.csv"
-CARE_CSV = "care_logs.csv"
-SENTIMENT_CSV = "sentiment_logs.csv"
-ENCRYPT_SENTIMENT_CSV = "encrypt_sentiment_logs.csv"
-FEEL_PATH = "feelings.json"
+DATA_FILE = "logs/daily_data.json"
+MENTAL_CSV = "logs/mental_logs.csv"
+EXERCISE_CSV = "logs/exercise_logs.csv"
+SLEEP_CSV = "logs/sleep_logs.csv"
+CARE_CSV = "logs/care_logs.csv"
+ENCRYPT_SENTIMENT_CSV = "logs/encrypt_sentiment_logs.csv"
+FEEL_PATH = "logs/feelings.json"
+# for debug
+SENTIMENT_CSV = "logs/sentiment_logs.csv"
+SENTIMENT_TMP_CSV = "logs/sentiment_logs_tmp.csv"
+ENCRYPT_SENTIMENT_TMP_CSV = "logs/encrypt_sentiment_logs_tmp.csv"
 
-TOP_IMAGE_PATH = "reimu.jpeg"
+TOP_IMAGE_PATH = "data/reimu.jpeg"
 TOP_IMAGE_MAX_HEIGHT = 160  # px

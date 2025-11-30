@@ -11,16 +11,10 @@ from PIL import Image
 import config
 
 
-from encrypt_utils import get_fernet_from_env, load_encrypted_json, save_encrypted_json, load_encrypted_csv, save_encrypted_csv
+from crypt.encrypt_utils import get_fernet_from_env, load_encrypted_json, save_encrypted_json, load_encrypted_csv, save_encrypted_csv
 from utils import load_json, load_csv, iso, save_json,save_csv, append_or_update
 from ui import render_top_image_base64, render_weather_section, render_goal_tasks_section, render_daily_numeric_section, render_feeling_regist
 
-def get_fernet():
-    fernet = get_fernet_from_env()
-    if fernet is None:
-        st.warning("データ暗号化キーが設定されていません。環境変数 FERNET_KEY を設定してください。")
-        # ここで続行するか（非暗号化モード）止めるかはポリシー次第
-    return fernet
 
 # --------------------------
 # Main App
@@ -30,7 +24,6 @@ render_top_image_base64(config.TOP_IMAGE_PATH)
 
 st.title("🤐 My Daily Board")
 
-fernet = get_fernet()
 all_data = load_json(config.DATA_FILE)
 today_dt = date.today()
 today_key = iso(today_dt)
@@ -49,7 +42,7 @@ render_daily_numeric_section("💤 睡眠（時間）", config.SLEEP_CSV, "hours
 st.write("---")
 render_daily_numeric_section("🏃‍♂️ 運動（分）", config.EXERCISE_CSV, "minutes", 0, 1440, 5, 0)
 st.write("---")
-render_daily_numeric_section("💊 セルフケア（分）", config.CARE_CSV, "minutes", 0, 1440, 5, 0)
+render_daily_numeric_section("💊 セルフケア（分）", config.CARE_CSV, "minutes", 0, 1430, 5, 0)
 st.write("---")
 render_feeling_regist()
 
