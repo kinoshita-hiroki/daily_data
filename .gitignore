@@ -218,3 +218,5 @@ encrypt_sentiment_logs.csv
 sentiment_logs.csv
 care_logs.csv
 sentiment_logs_tmp.csv
+encrypt_observation_logs.csv
+observation_logs_tmp.csv

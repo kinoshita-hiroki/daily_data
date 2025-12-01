@@ -156,5 +156,32 @@ def render_feeling_regist():
             # 保存
             save_encrypted_csv(config.ENCRYPT_SENTIMENT_CSV, df, fernet)
             st.success("記録しました！")
+
+def render_observation_regist():
+    fernet = get_fernet()
+    try:
+    # CSV 読み込み例（運動）
+        df = load_encrypted_csv(config.ENCRYPT_OBSERVATION_CSV, fernet, columns=["日付", "対象", "事実", "感情", "洞察", "対処法"])
+    except Exception as e:
+        df = pd.DataFrame(columns=["日付", "対象", "事実", "感情", "洞察", "対処法"])
+
+    st.subheader("💞 観察の記録")
+
+    with st.form("記録フォーム"):
+        date = st.date_input("日付", datetime.today())
+        obj = st.text_input("対象", key="obj")
+        fact = st.text_area("事実", key="fact")
+        sentiment = st.selectbox("自分の感情（任意）", ["", "ポジティブ", "ニュートラル", "ネガティブ"], key="sentiment")
+        insight = st.text_area("洞察", key="insight")
+        solution = st.text_area("対処法", key="solution")
+        
+        submitted = st.form_submit_button("記録する")
+                
+        
+        if submitted:
+            df = pd.concat([df, pd.DataFrame([[date, obj, fact, sentiment, insight, solution]], columns=df.columns)])
+            # 保存
+            save_encrypted_csv(config.ENCRYPT_OBSERVATION_CSV, df, fernet)
+            st.success("記録しました！")
             
 API_KEY = load_key()
