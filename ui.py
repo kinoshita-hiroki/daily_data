@@ -12,6 +12,8 @@ from datetime import date, datetime, timedelta
 from utils import load_json, load_csv, iso, save_json,save_csv, append_or_update
 import pandas as pd
 from crypt.encrypt_utils import save_encrypted_csv, load_encrypted_csv, get_fernet_from_env
+import random
+
 def load_key():
     load_dotenv()  # .env の読み込み
 
@@ -158,14 +160,15 @@ def render_feeling_regist():
             st.success("記録しました！")
 
 def render_observation_regist():
+    observation_columns = ["日付", "対象", "事実", "感情", "洞察", "対処法"]
     fernet = get_fernet()
     try:
     # CSV 読み込み例（運動）
-        df = load_encrypted_csv(config.ENCRYPT_OBSERVATION_CSV, fernet, columns=["日付", "対象", "事実", "感情", "洞察", "対処法"])
+        df = load_encrypted_csv(config.ENCRYPT_OBSERVATION_CSV, fernet, columns=observation_columns)
     except Exception as e:
-        df = pd.DataFrame(columns=["日付", "対象", "事実", "感情", "洞察", "対処法"])
+        df = pd.DataFrame(columns=observation_columns)
 
-    st.subheader("💞 観察の記録")
+    st.subheader("👀 観察の記録")
 
     with st.form("記録フォーム"):
         date = st.date_input("日付", datetime.today())

@@ -207,16 +207,7 @@ marimo/_lsp/
 __marimo__/
 
 # App
-daily_data.json
-exercise_logs.csv
-feelings.json
-mental_logs.csv
-reimu.jpeg
-sentiment_log.csv
-sleep_logs.csv
-encrypt_sentiment_logs.csv
-sentiment_logs.csv
-care_logs.csv
-sentiment_logs_tmp.csv
-encrypt_observation_logs.csv
-observation_logs_tmp.csv
+
+
+logs/*
+data/*

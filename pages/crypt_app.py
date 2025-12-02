@@ -4,7 +4,7 @@ import os
 import pandas as pd
 import random
 import config
-from ui import get_fernet
+from ui import get_fernet, render_top_image_base64
 from crypt.encrypt_utils import save_encrypted_csv, load_encrypted_csv, get_fernet_from_env
 
 def crypt_debug(header, raw_csv, encrypted_tmp_csv, encrypted_csv, tmp_csv, column_names):
@@ -28,6 +28,8 @@ def crypt_debug(header, raw_csv, encrypted_tmp_csv, encrypted_csv, tmp_csv, colu
             except Exception as e:
                 st.error(f"復号に失敗: {e}")
 
-st.title("デバッグ用暗号化 / 復号化ツール")
+
+render_top_image_base64(config.TOP_IMAGE_PATH2)
+st.title("🧑‍🔧 デバッグ用暗号化 / 復号化ツール")
 crypt_debug("内省用", config.SENTIMENT_CSV, config.ENCRYPT_SENTIMENT_TMP_CSV, config.ENCRYPT_SENTIMENT_CSV, config.SENTIMENT_TMP_CSV, ["日付", "対象", "事実", "感情", "詳細感情", "感想", "対処法"])
 crypt_debug("観察用", config.OBSERVATION_CSV, config.ENCRYPT_OBSERVATION_TMP_CSV, config.ENCRYPT_OBSERVATION_CSV, config.OBSERVATION_TMP_CSV, ["日付", "対象", "事実", "感情", "洞察", "対処法"])

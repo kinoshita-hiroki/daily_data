@@ -1,7 +1,6 @@
 # app_refactor_base64_topimage.py
 import os
 import json
-import requests
 from datetime import date, datetime, timedelta
 import base64
 
@@ -27,7 +26,7 @@ st.title("🤐 My Daily Board")
 all_data = load_json(config.DATA_FILE)
 today_dt = date.today()
 today_key = iso(today_dt)
-daily = all_data.setdefault(today_key, {"goal": "", "tasks": [], "memo": "", "city": "Tokushima", "weather": {}})
+daily = all_data.setdefault(today_key, {"goal": "", "tasks": [], "city": "Tokushima", "weather": {}})
 
 # 読み込み
 #df_ex = load_encrypted_csv(EXERCISE_CSV, fernet, columns=["date","minutes"])
@@ -44,6 +43,5 @@ render_daily_numeric_section("🏃‍♂️ 運動（分）", config.EXERCISE_CS
 st.write("---")
 render_daily_numeric_section("💊 セルフケア（分）", config.CARE_CSV, "minutes", 0, 1430, 5, 0)
 st.write("---")
-render_feeling_regist()
 
 save_json(config.DATA_FILE, all_data)

@@ -18,5 +18,14 @@ OBSERVATION_TMP_CSV = "logs/observation_logs_tmp.csv"
 ENCRYPT_SENTIMENT_TMP_CSV = "logs/encrypt_sentiment_logs_tmp.csv"
 ENCRYPT_OBSERVATION_TMP_CSV = "logs/encrypt_observation_logs_tmp.csv"
 
+WEIGHT_CSV = "logs/weight.csv"
+HARDINESS_CSV = "logs/hardiness.csv"
+SELF_CARE_CSV = "logs/self_care.csv"
+HUMAN_SKILL_CSV = "logs/human_skill.csv"
+
 TOP_IMAGE_PATH = "data/reimu.jpeg"
+TOP_IMAGE_PATH2 = "data/hakureino.jpg"
+TOP_IMAGE_PATH3 = "data/fuke.jpeg"
+TOP_IMAGE_PATH4 = "data/jinjya.jpg"
+TOP_IMAGE_PATH5 = "data/ame.jpg"
 TOP_IMAGE_MAX_HEIGHT = 160  # px
