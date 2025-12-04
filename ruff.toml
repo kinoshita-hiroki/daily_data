@@ -1,5 +1,13 @@
-line-length = 88
+line-length = 100          # 88 でも良いが、Streamlit は行が長くなりがち
 target-version = "py311"
 
 [lint]
-select = ["E", "F", "W", "I"] # I は import 整理
+select = ["E", "F", "W", "I"]
+ignore = [
+    "E203",   # Black と衝突することが多い（: 前後のスペース）
+    "W291",   # 行末スペースは Black が消すので Ruff で警告しなくてOK
+    "E501",
+]
+
+[lint.isort]
+known-first-party = ["app"]   # import 並び替えが安定する（重要）
