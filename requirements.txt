@@ -3,3 +3,5 @@ pandas
 Pillow
 python-dotenv
 cryptography
+pytest
+pytest-mock

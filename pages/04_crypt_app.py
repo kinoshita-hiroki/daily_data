@@ -3,8 +3,8 @@ from dotenv import load_dotenv
 import os
 import pandas as pd
 import random
-import config
-from ui import get_fernet, render_top_image_base64
+import app.config as config
+from app.ui import get_fernet, render_top_image_base64
 from crypt.encrypt_utils import save_encrypted_csv, load_encrypted_csv, get_fernet_from_env
 
 def crypt_debug(header, raw_csv, encrypted_tmp_csv, encrypted_csv, tmp_csv, column_names):

@@ -12,7 +12,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 
 # データフォルダ作成（永続化は docker-compose で）
-RUN mkdir -p /app/data
+RUN mkdir -p /app/logs
 
 # Streamlit を起動
 CMD ["streamlit", "run", "app.py", "--server.port=8501", "--server.address=0.0.0.0"]
