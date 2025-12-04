@@ -1,14 +1,15 @@
 import os
 import tempfile
-import pandas as pd
-import pytest
-from cryptography.fernet import Fernet, InvalidToken
-
 from crypt.encrypt_utils import (
     get_fernet_from_env,
-    save_encrypted_csv,
     load_encrypted_csv,
+    save_encrypted_csv,
 )
+
+import pandas as pd
+import pytest
+from cryptography.fernet import Fernet
+
 
 # ---------- get_fernet_from_env ----------
 def test_get_fernet_from_env_success(monkeypatch):

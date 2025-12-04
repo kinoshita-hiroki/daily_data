@@ -1,8 +1,10 @@
 # --------------------------
 # Weather API
 # --------------------------
-from datetime import date, datetime, timedelta
+from datetime import datetime
+
 import requests
+
 
 def fetch_current_weather(city: str, api_key: str):
     if not api_key:

@@ -1,6 +1,7 @@
-from app.ui import render_daily_numeric_section, render_top_image_base64
 import streamlit as st
+
 import app.config as config
+from app.ui import render_daily_numeric_section, render_top_image_base64
 
 render_top_image_base64(config.TOP_IMAGE_PATH5)
 st.title("👩‍⚕️ 定期検診")

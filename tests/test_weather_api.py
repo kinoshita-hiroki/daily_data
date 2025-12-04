@@ -1,7 +1,5 @@
-import pytest
-from unittest.mock import patch, MagicMock
 from datetime import datetime
-import requests
+from unittest.mock import MagicMock, patch
 
 from app.weather_api import (
     fetch_current_weather,

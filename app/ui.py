@@ -1,18 +1,23 @@
 # --------------------------
 # UI Helpers
 # --------------------------
-from PIL import Image
+import os
+from crypt.encrypt_utils import (
+    get_fernet_from_env,
+    load_encrypted_csv,
+    save_encrypted_csv,
+)
+from datetime import date, datetime, timedelta
+
+import pandas as pd
 import streamlit as st
 from dotenv import load_dotenv
-import os
+from PIL import Image
 
 import app.config as config
+from app.utils import append_or_update, iso, load_csv, load_json, save_json
 from app.weather_api import fetch_current_weather, fetch_forecast_noon
-from datetime import date, datetime, timedelta
-from app.utils import load_json, load_csv, iso, save_json,save_csv, append_or_update, iso
-import pandas as pd
-from crypt.encrypt_utils import save_encrypted_csv, load_encrypted_csv, get_fernet_from_env
-import random
+
 
 def load_key():
     load_dotenv()  # .env の読み込み
@@ -136,7 +141,7 @@ def render_feeling_regist():
     try:
     # CSV 読み込み例（運動）
         df = load_encrypted_csv(config.ENCRYPT_SENTIMENT_CSV, fernet, columns=["日付", "対象", "事実", "感情", "詳細感情", "感想", "対処法"])
-    except Exception as e:
+    except Exception:
         df = pd.DataFrame(columns=["日付", "対象", "事実", "感情", "詳細感情", "感想", "対処法"])
 
     st.subheader("💞 感情の記録")
@@ -149,10 +154,10 @@ def render_feeling_regist():
         tag = st.text_input("詳細感情", key="tag")
         feeling = st.text_area("どう感じた", key="feeling")
         solution = st.text_area("対処法", key="solution")
-        
+
         submitted = st.form_submit_button("記録する")
-                
-        
+
+
         if submitted:
             df = pd.concat([df, pd.DataFrame([[date, obj, fact, sentiment, tag, feeling, solution]], columns=df.columns)])
             # 保存
@@ -165,7 +170,7 @@ def render_observation_regist():
     try:
     # CSV 読み込み例（運動）
         df = load_encrypted_csv(config.ENCRYPT_OBSERVATION_CSV, fernet, columns=observation_columns)
-    except Exception as e:
+    except Exception:
         df = pd.DataFrame(columns=observation_columns)
 
     st.subheader("👀 観察の記録")
@@ -177,14 +182,14 @@ def render_observation_regist():
         sentiment = st.selectbox("自分の感情（任意）", ["", "ポジティブ", "ニュートラル", "ネガティブ"], key="sentiment")
         insight = st.text_area("洞察", key="insight")
         solution = st.text_area("対処法", key="solution")
-        
+
         submitted = st.form_submit_button("記録する")
-                
-        
+
+
         if submitted:
             df = pd.concat([df, pd.DataFrame([[date, obj, fact, sentiment, insight, solution]], columns=df.columns)])
             # 保存
             save_encrypted_csv(config.ENCRYPT_OBSERVATION_CSV, df, fernet)
             st.success("記録しました！")
-            
+
 API_KEY = load_key()

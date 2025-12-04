@@ -1,15 +1,16 @@
+import random
+from crypt.encrypt_utils import load_encrypted_csv, save_encrypted_csv
+
+import pandas as pd
 import streamlit as st
 from dotenv import load_dotenv
-import os
-import pandas as pd
-import random
+
 import app.config as config
 from app.ui import get_fernet, render_top_image_base64
-from crypt.encrypt_utils import save_encrypted_csv, load_encrypted_csv, get_fernet_from_env
+
 
 def crypt_debug(header, raw_csv, encrypted_tmp_csv, encrypted_csv, tmp_csv, column_names):
     load_dotenv()
-    KEY = os.getenv("FERNET_KEY").encode()
     st.subheader(header)
 
     mode = st.radio("モードを選択", ["暗号化", "復号化"], key=random.random())

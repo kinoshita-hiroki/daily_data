@@ -27,3 +27,9 @@ jobs:
 
       - name: Run tests
         run: pytest -q
+
+      - name: Run Ruff (lint)
+        run: |
+          pip install ruff
+          ruff check
+

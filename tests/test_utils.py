@@ -1,6 +1,8 @@
 # tests/test_utils.py
-from app.utils import append_or_update
 import pandas as pd
+
+from app.utils import append_or_update
+
 
 def test_append_or_update_update():
     print("test_append_or_update_update")
