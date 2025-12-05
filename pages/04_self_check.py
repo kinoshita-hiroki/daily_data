@@ -3,7 +3,7 @@ import streamlit as st
 import app.config as config
 from app.ui import render_daily_numeric_section, render_top_image_base64
 
-render_top_image_base64(config.TOP_IMAGE_PATH5)
+render_top_image_base64(config.TOP_IMAGE_PATH3)
 st.title("👩‍⚕️ 定期検診")
 
 render_daily_numeric_section("📉 体重", config.WEIGHT_CSV, "weight", 0, 100, 1, 60)
