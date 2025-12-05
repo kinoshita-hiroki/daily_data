@@ -1,7 +1,8 @@
-import streamlit as st
-from datetime import datetime
-import pandas as pd
 import os
+from datetime import datetime
+
+import pandas as pd
+import streamlit as st
 
 # === 1. 曜日ごとのメニュー ===
 circuit = [
@@ -102,10 +103,6 @@ CSV_PATH = "logs/workout_log.csv"
 
 # render_workout_checklist()
 
-import streamlit as st
-from datetime import datetime
-import pandas as pd
-import os
 
 
 # ===== CSV 初期化 =====
