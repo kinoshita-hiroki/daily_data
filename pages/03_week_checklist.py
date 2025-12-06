@@ -4,31 +4,36 @@ from datetime import datetime
 import pandas as pd
 import streamlit as st
 
+import app.config as config
+from app.ui import render_top_image_base64
+
 # === 1. 曜日ごとのメニュー ===
 circuit = [
-        {"name": "スクワット", "sets": 2, "detail": "12~15"},
-        {"name": "ベンチプレス", "sets": 2, "detail": "12~15"},
-        {"name": "ローイング", "sets": 2, "detail": "10~12"},
-        {"name": "デットリフト", "sets": 2, "detail": "12~15"},
-        {"name": "ランジ", "sets": 2, "detail": "12~15"},
-        {"name": "プランク", "sets": 2, "detail": "30秒"},
-        {"name": "ヒップリフト", "sets": 2, "detail": "12~15"},
-        ]
-#yoga = ["キャット＆カウ", "ダウンドッグ", "三角ポーズ", "ウォーリアII", "プランク", "チェア", "ツイストチェア", "ハーフムーン", "ダウンドッグ", "片足前屈", "シャバアーサナ"]
+    {"name": "スクワット", "sets": 3, "detail": "12~15"},
+    {"name": "ベンチプレス", "sets": 3, "detail": "12~15"},
+    {"name": "ローイング", "sets": 2, "detail": "10~12"},
+    {"name": "デットリフト", "sets": 3, "detail": "12~15"},
+    {"name": "ランジ", "sets": 2, "detail": "12~15"},
+    {"name": "アームカール", "sets": 3, "detail": "12~15"},
+    {"name": "ダンベルカーフレイズ", "sets": 2, "detail": "12~15"},
+    {"name": "ダンベル腹筋", "sets": 3, "detail": "10~15"},
+    {"name": "ヒップリフト", "sets": 3, "detail": "12~15"},
+    {"name": "ショルダープレス", "sets": 3, "detail": "12~15"},
+]
 yoga = [
-        {"name": "キャット＆カウ", "sets": 1, "detail": "5呼吸"},
-        {"name": "ダウンドッグ", "sets": 1, "detail": "5呼吸"},
-        {"name": "三角ポーズ", "sets": 1, "detail": "5呼吸"},
-        {"name": "ウォーリアII", "sets": 1, "detail": "5呼吸"},
-        {"name": "プランク", "sets": 1, "detail": "5呼吸"},
-        {"name": "チェア", "sets": 1, "detail": "5呼吸"},
-        {"name": "ツイストチェア", "sets": 1, "detail": "5呼吸"},
-        {"name": "ハーフムーン", "sets": 1, "detail": "5呼吸"},
-        {"name": "片足前屈", "sets": 1, "detail": "5呼吸"},
-        {"name": "シャバアーサナ", "sets": 1, "detail": "5呼吸"},
-        ]
-rest = [[{"name": "軽めのストレッチ・瞑想", "sets": 1, "detail": "15分程度"}]]
-jump = [{"name": "なわとび", "sets": 4, "detail": "200回"}]
+    {"name": "キャット＆カウ", "sets": 1, "detail": "5呼吸"},
+    {"name": "ダウンドッグ", "sets": 1, "detail": "5呼吸"},
+    {"name": "三角ポーズ", "sets": 1, "detail": "5呼吸"},
+    {"name": "ウォーリアII", "sets": 1, "detail": "5呼吸"},
+    {"name": "木のポーズ", "sets": 1, "detail": "5呼吸"},
+    {"name": "ツイストチェア", "sets": 1, "detail": "5呼吸"},
+    {"name": "ハーフムーン", "sets": 1, "detail": "5呼吸"},
+    {"name": "片足前屈", "sets": 1, "detail": "5呼吸"},
+    {"name": "シャバアーサナ", "sets": 1, "detail": "5呼吸"},
+]
+rest = [{"name": "軽めのストレッチ・瞑想", "sets": 1, "detail": "15分程度"}]
+jump = [{"name": "なわとび", "sets": 4, "detail": "150回"}]
+
 MENU_BY_DAY = {
     "Monday": circuit,
     "Tuesday": rest,
@@ -36,113 +41,44 @@ MENU_BY_DAY = {
     "Thursday": rest,
     "Friday": circuit,
     "Saturday": rest,
-    "Sunday": jump
+    "Sunday": jump,
 }
 
 # 保存先 CSV
 CSV_PATH = "logs/workout_log.csv"
 
 
-# # === 2. CSV がなければ初期化 ===
-# def init_csv():
-#     if not os.path.exists(CSV_PATH):
-#         df = pd.DataFrame(columns=["date", "weekday", "menu", "done"])
-#         df.to_csv(CSV_PATH, index=False)
-
-
-# # === 3. 保存処理 ===
-# def save_result(date_str, weekday, results):
-#     """
-#     results: dict { "なわとび..." : True/False }
-#     """
-#     df = pd.read_csv(CSV_PATH)
-
-#     new_rows = []
-#     for menu, done in results.items():
-#         new_rows.append({
-#             "date": date_str,
-#             "weekday": weekday,
-#             "menu": menu,
-#             "done": int(done),
-#         })
-
-#     df = pd.concat([df, pd.DataFrame(new_rows)], ignore_index=True)
-#     df.to_csv(CSV_PATH, index=False)
-
-
-# # === 4. UI 描画部分 ===
-# def render_workout_checklist():
-#     st.header("📋 今日の筋トレチェックリスト")
-
-#     # 今日の情報取得
-#     today = datetime.now()
-#     date_str = today.strftime("%Y-%m-%d")
-#     weekday = today.strftime("%A")
-
-#     st.subheader(f"🗓️ {date_str}（{weekday}）")
-
-#     menus = MENU_BY_DAY.get(weekday, [])
-#     if not menus:
-#         st.info("今日はメニューがありません。")
-#         return
-
-#     # チェック UI
-#     st.write("### ✔ トレーニング項目")
-#     results = {}
-#     for m in menus:
-#         key = f"{date_str}-{m}"
-#         results[m] = st.checkbox(m, key=key)
-
-#     st.write("---")
-
-#     # 保存ボタン
-#     if st.button("📁 今日の結果を保存する"):
-#         init_csv()
-#         save_result(date_str, weekday, results)
-#         st.success("保存しました！")
-
-# render_workout_checklist()
-
-
-
 # ===== CSV 初期化 =====
 def init_csv():
+    if not os.path.exists("logs"):
+        os.makedirs("logs")
     if not os.path.exists(CSV_PATH):
         df = pd.DataFrame(columns=["date", "weekday", "menu", "set_number", "done"])
         df.to_csv(CSV_PATH, index=False)
 
-# ===== 保存 =====
-# def save_results(date_str, weekday, results_list):
-#     """
-#     results_list = [
-#         {"menu": "なわとび", "set_number": 1, "done": True },
-#         ...
-#     ]
-#     """
-#     df = pd.read_csv(CSV_PATH)
-#     new_rows = []
 
-#     for r in results_list:
-#         new_rows.append({
-#             "date": date_str,
-#             "weekday": weekday,
-#             "menu": r["menu"],
-#             "set_number": r["set_number"],
-#             "done": int(r["done"]),
-#         })
+# ===== 今日のチェック状態を読み込む =====
+def load_today_status(date_str):
+    if not os.path.exists(CSV_PATH):
+        return {}
 
-#     df = pd.concat([df, pd.DataFrame(new_rows)], ignore_index=True)
-#     df.to_csv(CSV_PATH, index=False)
+    df = pd.read_csv(CSV_PATH)
+    df_today = df[df["date"] == date_str]
+
+    # key: "メニュー名-セット番号" → True/False
+    status = {}
+    for _, row in df_today.iterrows():
+        key = f"{row['menu']}-set{int(row['set_number'])}"
+        status[key] = bool(row["done"])
+
+    return status
+
+
+# ===== 状態保存（上書き） =====
 def save_results(date_str, weekday, results_list):
-    """
-    results_list = [
-        {"menu": "なわとび", "set_number": 1, "done": True },
-        ...
-    ]
-    """
     df = pd.read_csv(CSV_PATH)
 
-    # ----- ① 指定日付のデータを削除（上書き用） -----
+    # ----- ① 指定日付のデータを削除（上書きのため） -----
     df = df[df["date"] != date_str]
 
     # ----- ② 新しいデータを作成 -----
@@ -156,17 +92,14 @@ def save_results(date_str, weekday, results_list):
             "done": int(r["done"]),
         })
 
-    # ----- ③ 結合 -----
+    # ----- ③ 結合して保存 -----
     df = pd.concat([df, pd.DataFrame(new_rows)], ignore_index=True)
-
-    # ----- ④ 保存 -----
     df.to_csv(CSV_PATH, index=False)
-
 
 
 # ===== UI 描画 =====
 def render_workout_checklist():
-    st.header("📋 今日の筋トレチェックリスト")
+    st.header("📋 今日のトレーニングチェックリスト")
 
     today = datetime.now()
     date_str = today.strftime("%Y-%m-%d")
@@ -178,6 +111,10 @@ def render_workout_checklist():
     if not menus:
         st.info("今日は特にメニューがありません。")
         return
+
+    # --------- 初期状態読み込み（永続化） ---------
+    init_csv()
+    today_status = load_today_status(date_str)
 
     results_list = []
 
@@ -194,10 +131,14 @@ def render_workout_checklist():
 
         st.markdown(title)
 
-        # セット数分のチェックボックス生成
+        # セットごとにチェックボックス作成
         for i in range(1, sets + 1):
-            key = f"{date_str}-{name}-set{i}"
-            done = st.checkbox(f"セット {i}", key=key)
+            key = f"{name}-set{i}"
+
+            # 今日の保存された状態を初期値として設定
+            default = today_status.get(key, False)
+
+            done = st.checkbox(f"セット {i}", key=f"{date_str}-{key}", value=default)
 
             results_list.append({
                 "menu": name,
@@ -209,7 +150,10 @@ def render_workout_checklist():
 
     # 保存
     if st.button("📁 今日の結果を保存する"):
-        init_csv()
         save_results(date_str, weekday, results_list)
-        st.success("保存しました！")
+        st.success("保存しました！（アプリ再起動後も状態が保持されます）")
+
+
+# ========== 描画 ==========
+render_top_image_base64(config.TOP_IMAGE_PATH3)
 render_workout_checklist()

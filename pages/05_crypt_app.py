@@ -29,7 +29,7 @@ def crypt_debug(header, raw_csv, encrypted_tmp_csv, encrypted_csv, tmp_csv, colu
                 st.error(f"復号に失敗: {e}")
 
 
-render_top_image_base64(config.TOP_IMAGE_PATH4)
+render_top_image_base64(config.TOP_IMAGE_PATH5)
 st.title("🧑‍🔧 デバッグ用暗号化 / 復号化ツール")
 crypt_debug("内省用", config.SENTIMENT_CSV, config.ENCRYPT_SENTIMENT_TMP_CSV, config.ENCRYPT_SENTIMENT_CSV, config.SENTIMENT_TMP_CSV, ["日付", "対象", "事実", "感情", "詳細感情", "感想", "対処法"], [1, 2, 3])
 crypt_debug("観察用", config.OBSERVATION_CSV, config.ENCRYPT_OBSERVATION_TMP_CSV, config.ENCRYPT_OBSERVATION_CSV, config.OBSERVATION_TMP_CSV, ["日付", "対象", "事実", "感情", "洞察", "対処法"], [4, 5, 6])
