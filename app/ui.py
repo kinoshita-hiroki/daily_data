@@ -68,7 +68,7 @@ def render_weather_section(data, today):
             else:
                 st.write("データなし")
 
-def render_goal_tasks_section(data, all_data, today):
+def render_goal_tasks_section(data, all_data):
     st.subheader("🎯 目標・タスク")
     goal = st.text_input("今日の目標", value=data.get("goal", ""))
     data["goal"] = goal

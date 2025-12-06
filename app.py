@@ -1,5 +1,5 @@
 # app_refactor_base64_topimage.py
-from datetime import date
+from datetime import date, timedelta
 
 import streamlit as st
 
@@ -22,15 +22,19 @@ st.title("🤐 My Daily Board")
 
 all_data = load_json(config.DATA_FILE)
 today_dt = date.today()
+yesterday_dt = today_dt - timedelta(days=1)
+
 today_key = iso(today_dt)
-daily = all_data.setdefault(today_key, {"goal": "", "tasks": [], "city": "Tokushima", "weather": {}})
+yesterday_key = iso(yesterday_dt)
+yesterday = all_data.setdefault(yesterday_key, {"goal": "", "tasks": [], "city": "Tokushima", "weather": {}})
+daily = all_data.setdefault(today_key, {"goal": "", "tasks": yesterday["tasks"], "city": "Tokushima", "weather": {}})
 
 # 読み込み
 #df_ex = load_encrypted_csv(EXERCISE_CSV, fernet, columns=["date","minutes"])
 
 render_weather_section(daily, today_dt)
 st.write("---")
-render_goal_tasks_section(daily, all_data, today_dt)
+render_goal_tasks_section(daily, all_data)
 st.write("---")
 render_daily_numeric_section("💓 メンタル", config.MENTAL_CSV, "mental", 0, 10, 1, 5)
 st.write("---")
