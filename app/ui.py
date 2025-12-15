@@ -92,6 +92,29 @@ def render_goal_tasks_section(data, all_data):
                 save_json(config.DATA_FILE, all_data)
                 st.rerun()
 
+def render_everyday_checklist():
+    today = date.today().isoformat()
+
+    # 仮データ
+    check_items = ["食べすぎない", "寝る前ケア"]
+    data = load_json(config.EVERY_DAY_CHECK_PATH)  # なければ {}
+
+    # 今日のデータを初期化（前日引き継ぎ）
+    if today not in data:
+        data[today] = {item: False for item in check_items}
+
+    st.subheader("毎日チェックリスト")
+
+    for item in check_items:
+        data[today][item] = st.checkbox(
+            item,
+            value=data[today].get(item, False),
+            key=f"{today}_{item}"
+        )
+
+    save_json(config.EVERY_DAY_CHECK_PATH, data)
+
+
 def render_daily_numeric_section(title, csv_path, column_name, min_val, max_val, step, default):
     st.subheader(title)
 

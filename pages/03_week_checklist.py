@@ -14,34 +14,30 @@ circuit = [
     {"name": "ローイング", "sets": 2, "detail": "10~12"},
     {"name": "デットリフト", "sets": 3, "detail": "12~15"},
     {"name": "ランジ", "sets": 2, "detail": "12~15"},
-    {"name": "アームカール", "sets": 3, "detail": "12~15"},
+    {"name": "アームカール", "sets": 2, "detail": "12~15"},
     {"name": "ダンベルカーフレイズ", "sets": 2, "detail": "12~15"},
-    {"name": "ダンベル腹筋", "sets": 3, "detail": "10~15"},
-    {"name": "ヒップリフト", "sets": 3, "detail": "12~15"},
-    {"name": "ショルダープレス", "sets": 3, "detail": "12~15"},
+    {"name": "ダンベル腹筋", "sets": 2, "detail": "10~15"},
+    {"name": "ショルダープレス", "sets": 2, "detail": "12~15"},
+    {"name": "サイドスクワット", "sets": 2, "detail": "12~15"},
 ]
 yoga = [
-    {"name": "キャット＆カウ", "sets": 1, "detail": "5呼吸"},
     {"name": "ダウンドッグ", "sets": 1, "detail": "5呼吸"},
-    {"name": "三角ポーズ", "sets": 1, "detail": "5呼吸"},
-    {"name": "ウォーリアII", "sets": 1, "detail": "5呼吸"},
     {"name": "木のポーズ", "sets": 1, "detail": "5呼吸"},
-    {"name": "ツイストチェア", "sets": 1, "detail": "5呼吸"},
-    {"name": "ハーフムーン", "sets": 1, "detail": "5呼吸"},
     {"name": "片足前屈", "sets": 1, "detail": "5呼吸"},
+    {"name": "英雄1のポーズ", "sets": 1, "detail": "5呼吸"},
     {"name": "シャバアーサナ", "sets": 1, "detail": "5呼吸"},
 ]
-rest = [{"name": "軽めのストレッチ・瞑想", "sets": 1, "detail": "15分程度"}]
+rest = [{"name": "瞑想", "sets": 1, "detail": "5分程度"}]
 jump = [{"name": "なわとび", "sets": 4, "detail": "150回"}]
 
 MENU_BY_DAY = {
     "Monday": circuit,
     "Tuesday": rest,
-    "Wednesday": yoga,
+    "Wednesday": jump,
     "Thursday": rest,
     "Friday": circuit,
     "Saturday": rest,
-    "Sunday": jump,
+    "Sunday": yoga,
 }
 
 # 保存先 CSV

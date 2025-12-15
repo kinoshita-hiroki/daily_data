@@ -10,6 +10,8 @@ ENCRYPT_SENTIMENT_CSV = "logs/encrypt_sentiment_logs.csv"
 ENCRYPT_OBSERVATION_CSV = "logs/encrypt_observation_logs.csv"
 FEEL_PATH = "logs/feelings.json"
 LOG_PATH = "logs/observation_logs.csv"
+EVERY_DAY_CHECK_PATH = "everyday_checklist.json"
+
 # for debug
 SENTIMENT_CSV = "logs/sentiment_logs.csv"
 OBSERVATION_CSV = "logs/observation_logs.csv"

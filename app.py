@@ -1,11 +1,12 @@
 # app_refactor_base64_topimage.py
-from datetime import date, timedelta
+from datetime import date
 
 import streamlit as st
 
 import app.config as config
 from app.ui import (
     render_daily_numeric_section,
+    render_everyday_checklist,
     render_goal_tasks_section,
     render_top_image_base64,
     render_weather_section,
@@ -22,12 +23,9 @@ st.title("🤐 My Daily Board")
 
 all_data = load_json(config.DATA_FILE)
 today_dt = date.today()
-yesterday_dt = today_dt - timedelta(days=1)
 
 today_key = iso(today_dt)
-yesterday_key = iso(yesterday_dt)
-yesterday = all_data.setdefault(yesterday_key, {"goal": "", "tasks": [], "city": "Tokushima", "weather": {}})
-daily = all_data.setdefault(today_key, {"goal": "", "tasks": yesterday["tasks"], "city": "Tokushima", "weather": {}})
+daily = all_data.setdefault(today_key, {"goal": "", "tasks": [], "city": "Tokushima", "weather": {}})
 
 # 読み込み
 #df_ex = load_encrypted_csv(EXERCISE_CSV, fernet, columns=["date","minutes"])
@@ -35,6 +33,8 @@ daily = all_data.setdefault(today_key, {"goal": "", "tasks": yesterday["tasks"],
 render_weather_section(daily, today_dt)
 st.write("---")
 render_goal_tasks_section(daily, all_data)
+st.write("---")
+render_everyday_checklist()
 st.write("---")
 render_daily_numeric_section("💓 メンタル", config.MENTAL_CSV, "mental", 0, 10, 1, 5)
 st.write("---")
