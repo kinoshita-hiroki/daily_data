@@ -6,3 +6,4 @@ cryptography
 pytest
 pytest-mock
 ruff
+openai

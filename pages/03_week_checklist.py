@@ -9,16 +9,16 @@ from app.ui import render_top_image_base64
 
 # === 1. 曜日ごとのメニュー ===
 circuit = [
-    {"name": "スクワット", "sets": 3, "detail": "12~15"},
-    {"name": "ベンチプレス", "sets": 3, "detail": "12~15"},
+    {"name": "スクワット", "sets": 2, "detail": "12~15"},
+    {"name": "ベンチプレス", "sets": 2, "detail": "12~15"},
     {"name": "ローイング", "sets": 2, "detail": "10~12"},
-    {"name": "デットリフト", "sets": 3, "detail": "12~15"},
+    {"name": "デットリフト", "sets": 2, "detail": "12~15"},
     {"name": "ランジ", "sets": 2, "detail": "12~15"},
     {"name": "アームカール", "sets": 2, "detail": "12~15"},
     {"name": "ダンベルカーフレイズ", "sets": 2, "detail": "12~15"},
     {"name": "ダンベル腹筋", "sets": 2, "detail": "10~15"},
     {"name": "ショルダープレス", "sets": 2, "detail": "12~15"},
-    {"name": "サイドスクワット", "sets": 2, "detail": "12~15"},
+    {"name": "ヒップスラスト", "sets": 2, "detail": "12~15"},
 ]
 yoga = [
     {"name": "ダウンドッグ", "sets": 1, "detail": "5呼吸"},

@@ -81,14 +81,15 @@ def render_goal_tasks_section(data, all_data):
             save_json(config.DATA_FILE, all_data)
             st.rerun()
 
-    for idx, t in enumerate(list(tasks)):
+    for  t in list(tasks):
         cols = st.columns([0.85, 0.15])
+        task_id = t["id"]
         with cols[0]:
-            done = st.checkbox(t["name"], value=t.get("done", False), key=f"task_chk_{idx}")
-            tasks[idx]["done"] = done
+            done = st.checkbox(t["name"], value=t.get("done", False), key=f"task_chk_{task_id}")
+            t["done"] = done
         with cols[1]:
-            if st.button("🗑️", key=f"task_del_{idx}"):
-                tasks.pop(idx)
+            if st.button("🗑️", key=f"task_del_{task_id}"):
+                tasks.remove(t)
                 save_json(config.DATA_FILE, all_data)
                 st.rerun()
 
@@ -96,14 +97,14 @@ def render_everyday_checklist():
     today = date.today().isoformat()
 
     # 仮データ
-    check_items = ["食べすぎない", "寝る前ケア"]
+    check_items = ["食べすぎない 朝", "食べすぎない 昼", "食べすぎない 夜", "風呂掃除先にやる", "寝る前ケア"]
     data = load_json(config.EVERY_DAY_CHECK_PATH)  # なければ {}
 
     # 今日のデータを初期化（前日引き継ぎ）
     if today not in data:
         data[today] = {item: False for item in check_items}
 
-    st.subheader("毎日チェックリスト")
+    st.subheader("日のおわりチェックリスト")
 
     for item in check_items:
         data[today][item] = st.checkbox(
