@@ -14,7 +14,7 @@ import streamlit as st
 from dotenv import load_dotenv
 from PIL import Image
 
-import app.config as config
+import app.config.config as config
 from app.utils import append_or_update, iso, load_csv, load_json, save_json
 from app.weather_api import fetch_current_weather, fetch_forecast_noon
 

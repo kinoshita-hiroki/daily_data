@@ -3,7 +3,8 @@ from datetime import date
 
 import streamlit as st
 
-import app.config as config
+import app.config.config as config
+import app.config.training as training
 from app.ui import (
     render_daily_numeric_section,
     render_everyday_checklist,
@@ -34,7 +35,7 @@ render_weather_section(daily, today_dt)
 st.write("---")
 render_goal_tasks_section(daily, all_data)
 st.write("---")
-render_everyday_checklist()
+render_everyday_checklist(training.EVERY_DAY_CHECKLIST)
 st.write("---")
 render_daily_numeric_section("💓 メンタル", config.MENTAL_CSV, "mental", 0, 10, 1, 5)
 st.write("---")

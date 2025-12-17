@@ -2,7 +2,7 @@
 import pandas as pd
 import streamlit as st
 
-import app.config as config
+import app.config.config as config
 from app.utils import load_json
 
 

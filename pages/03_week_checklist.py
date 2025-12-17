@@ -4,8 +4,8 @@ from datetime import datetime
 import pandas as pd
 import streamlit as st
 
-import app.config as config
-import app.training as training
+import app.config.config as config
+import app.config.training as training
 from app.ui import render_top_image_base64
 
 # 保存先 CSV

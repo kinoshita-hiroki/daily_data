@@ -4,7 +4,7 @@ import pandas as pd
 import streamlit as st
 from dotenv import load_dotenv
 
-import app.config as config
+import app.config.config as config
 from app.ui import get_fernet, render_top_image_base64
 
 
