@@ -1,11 +1,9 @@
 
-import pandas as pd
 import streamlit as st
 
 import app.config.config as config
 from app.pages_ui import aggregate_data, build_prompt, llm
 from app.utils import load_json
-
 
 all_data = load_json(config.DATA_FILE)
 df = aggregate_data(all_data)
