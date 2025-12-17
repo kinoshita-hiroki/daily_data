@@ -5,43 +5,11 @@ import pandas as pd
 import streamlit as st
 
 import app.config as config
+import app.training as training
 from app.ui import render_top_image_base64
 
-# === 1. 曜日ごとのメニュー ===
-circuit = [
-    {"name": "スクワット", "sets": 2, "detail": "12~15"},
-    {"name": "ベンチプレス", "sets": 2, "detail": "12~15"},
-    {"name": "ローイング", "sets": 2, "detail": "10~12"},
-    {"name": "デットリフト", "sets": 2, "detail": "12~15"},
-    {"name": "ランジ", "sets": 2, "detail": "12~15"},
-    {"name": "アームカール", "sets": 2, "detail": "12~15"},
-    {"name": "ダンベルカーフレイズ", "sets": 2, "detail": "12~15"},
-    {"name": "ダンベル腹筋", "sets": 2, "detail": "10~15"},
-    {"name": "ショルダープレス", "sets": 2, "detail": "12~15"},
-    {"name": "ヒップスラスト", "sets": 2, "detail": "12~15"},
-]
-yoga = [
-    {"name": "ダウンドッグ", "sets": 1, "detail": "5呼吸"},
-    {"name": "木のポーズ", "sets": 1, "detail": "5呼吸"},
-    {"name": "片足前屈", "sets": 1, "detail": "5呼吸"},
-    {"name": "英雄1のポーズ", "sets": 1, "detail": "5呼吸"},
-    {"name": "シャバアーサナ", "sets": 1, "detail": "5呼吸"},
-]
-rest = [{"name": "瞑想", "sets": 1, "detail": "5分程度"}]
-jump = [{"name": "なわとび", "sets": 4, "detail": "150回"}]
-
-MENU_BY_DAY = {
-    "Monday": circuit,
-    "Tuesday": rest,
-    "Wednesday": jump,
-    "Thursday": rest,
-    "Friday": circuit,
-    "Saturday": rest,
-    "Sunday": yoga,
-}
-
 # 保存先 CSV
-CSV_PATH = "logs/workout_log.csv"
+CSV_PATH = config.WORKOUT_CSV
 
 
 # ===== CSV 初期化 =====
@@ -103,7 +71,7 @@ def render_workout_checklist():
 
     st.subheader(f"🗓️ {date_str}（{weekday}）")
 
-    menus = MENU_BY_DAY.get(weekday, [])
+    menus = training.MENU_BY_DAY.get(weekday, [])
     if not menus:
         st.info("今日は特にメニューがありません。")
         return

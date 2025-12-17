@@ -25,6 +25,13 @@ def load_key():
     API_KEY = os.getenv("OPENWEATHER_API_KEY")
     return API_KEY
 
+def get_fernet():
+    fernet = get_fernet_from_env()
+    if fernet is None:
+        st.warning("データ暗号化キーが設定されていません。環境変数 FERNET_KEY を設定してください。")
+        # ここで続行するか（非暗号化モード）止めるかはポリシー次第
+    return fernet
+
 def render_top_image_base64(path):
     # 画像を開く
     img = Image.open(path)  # ← 画像ファイル名
@@ -93,11 +100,10 @@ def render_goal_tasks_section(data, all_data):
                 save_json(config.DATA_FILE, all_data)
                 st.rerun()
 
-def render_everyday_checklist():
+def render_everyday_checklist(check_items):
     today = date.today().isoformat()
 
     # 仮データ
-    check_items = ["食べすぎない 朝", "食べすぎない 昼", "食べすぎない 夜", "風呂掃除先にやる", "寝る前ケア"]
     data = load_json(config.EVERY_DAY_CHECK_PATH)  # なければ {}
 
     # 今日のデータを初期化（前日引き継ぎ）
@@ -153,12 +159,6 @@ def render_daily_numeric_section(title, csv_path, column_name, min_val, max_val,
             df.to_csv(csv_path, index=False)
             st.success("記録しました")
             st.rerun()
-def get_fernet():
-    fernet = get_fernet_from_env()
-    if fernet is None:
-        st.warning("データ暗号化キーが設定されていません。環境変数 FERNET_KEY を設定してください。")
-        # ここで続行するか（非暗号化モード）止めるかはポリシー次第
-    return fernet
 
 def render_feeling_regist():
     fernet = get_fernet()
