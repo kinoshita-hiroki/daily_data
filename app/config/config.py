@@ -29,7 +29,8 @@ HARDINESS_CSV = "logs/constant/hardiness.csv"
 SELF_CARE_CSV = "logs/constant/self_care.csv"
 HUMAN_SKILL_CSV = "logs/constant/human_skill.csv"
 
-
+#RPG
+RPG_EX_CSV = "logs/rpg/rpg_ex_logs.csv"
 
 # images
 TOP_IMAGE_PATH = "data/totoro.jpg"

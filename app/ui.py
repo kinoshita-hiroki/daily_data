@@ -15,7 +15,7 @@ from dotenv import load_dotenv
 from PIL import Image
 
 import app.config.config as config
-from app.utils import append_or_update, iso, load_csv, load_json, save_json
+from app.utils import append_or_update, iso, load_csv, load_json, save_csv, save_json
 from app.weather_api import fetch_current_weather, fetch_forecast_noon
 
 
@@ -100,7 +100,7 @@ def render_goal_tasks_section(data, all_data):
                 save_json(config.DATA_FILE, all_data)
                 st.rerun()
 
-def render_everyday_checklist(check_items):
+def render_everyday_checklist_section(check_items):
     today = date.today().isoformat()
 
     # 仮データ
@@ -110,7 +110,7 @@ def render_everyday_checklist(check_items):
     if today not in data:
         data[today] = {item: False for item in check_items}
 
-    st.subheader("日のおわりチェックリスト")
+    st.subheader("毎日チェックリスト")
 
     for item in check_items:
         data[today][item] = st.checkbox(
@@ -142,7 +142,7 @@ def render_daily_numeric_section(title, csv_path, column_name, min_val, max_val,
 
         if st.button(f"更新 ({title})"):
             df = append_or_update(df, today, column_name, new_val)
-            df.to_csv(csv_path, index=False)
+            save_csv(df, csv_path)
             st.success("更新しました")
             st.rerun()
     else:
@@ -156,8 +156,39 @@ def render_daily_numeric_section(title, csv_path, column_name, min_val, max_val,
 
         if st.button(f"記録する ({title})"):
             df = append_or_update(df, today, column_name, val)
-            df.to_csv(csv_path, index=False)
+            save_csv(df, csv_path)
             st.success("記録しました")
+            st.rerun()
+
+def render_rpg_section(log_csv):
+    st.subheader("📖 日誌")
+    try:
+        df = load_csv(log_csv, ["date", "character", "exp", "note"])
+    except FileNotFoundError:
+        df = pd.DataFrame(columns=["date", "character", "exp", "note"])
+    with st.form("daily_exp_form"):
+        today = date.today().isoformat()
+        character = st.selectbox(
+            "対象",
+            ["勇者", "戦士", "魔法使い", "僧侶"]
+        )
+
+        exp = st.number_input(
+            "獲得経験値",
+            min_value=0,
+            max_value=10,
+            step=1
+        )
+
+        note = st.text_area(
+            "記録",
+            placeholder="例：資料作成、30分運動、コードのリファクタリング"
+        )
+        submitted = st.form_submit_button("経験値を記録")
+        if submitted:
+            df = pd.concat([df, pd.DataFrame([[today, character, exp, note]], columns=df.columns)])
+            save_csv(df, log_csv)
+            st.success(f"✨ {character}の経験値が {exp} 増えた！")
             st.rerun()
 
 def render_feeling_regist():
