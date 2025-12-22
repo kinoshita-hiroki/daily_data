@@ -211,3 +211,5 @@ __marimo__/
 
 logs/*
 data/*
+app/config/traing.py
+game/state.py
