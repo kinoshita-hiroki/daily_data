@@ -6,7 +6,6 @@ MENTAL_CSV = "logs/mental_logs.csv"
 EXERCISE_CSV = "logs/exercise_logs.csv"
 SLEEP_CSV = "logs/sleep_logs.csv"
 CARE_CSV = "logs/care_logs.csv"
-FEEL_PATH = "logs/feelings.json"
 LOG_PATH = "logs/observation_logs.csv"
 EVERY_DAY_CHECK_PATH = "logs/everyday_checklist.json"
 
@@ -31,6 +30,9 @@ HUMAN_SKILL_CSV = "logs/constant/human_skill.csv"
 
 #RPG
 RPG_EX_CSV = "logs/rpg/rpg_ex_logs.csv"
+RPG_FIRST_STATE_JSON = "logs/rpg/character_first_state.json"
+RPG_ENEMY_JSON = "logs/rpg/enemy_state.json"
+RPG_STATE_JSON = "logs/rpg/character_state.json"
 
 # images
 TOP_IMAGE_PATH = "data/totoro.jpg"

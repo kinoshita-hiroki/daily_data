@@ -27,6 +27,20 @@ SKILLS = {
         "effect": "fireball",
     },
 }
+SKILL_UNLOCKS = {
+    "勇者": [
+        {"level": 3, "skill": "spear"},
+    ],
+    "戦士": [
+        {"level": 4, "skill": "power_strike"}
+    ],
+    "魔法使い": [
+        {"level": 2, "skill": "fireball"}
+    ],
+    "僧侶": [
+        {"level": 3, "skill": "heal"}
+    ],
+}
 
 def create_battle_state():
     return {
