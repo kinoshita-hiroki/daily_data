@@ -99,6 +99,7 @@ def render_goal_tasks_section(data, all_data):
                 tasks.remove(t)
                 save_json(config.DATA_FILE, all_data)
                 st.rerun()
+    save_json(config.DATA_FILE, all_data)
 
 def render_everyday_checklist_section(check_items):
     today = date.today().isoformat()

@@ -13,7 +13,7 @@ from app.ui import (
     render_top_image_base64,
     render_weather_section,
 )
-from app.utils import iso, load_json, save_json
+from app.utils import iso, load_json
 
 # --------------------------
 # Main App
@@ -29,9 +29,6 @@ today_dt = date.today()
 today_key = iso(today_dt)
 daily = all_data.setdefault(today_key, {"goal": "", "tasks": [], "city": "Tokushima", "weather": {}})
 
-# 読み込み
-#df_ex = load_encrypted_csv(EXERCISE_CSV, fernet, columns=["date","minutes"])
-
 render_weather_section(daily, today_dt)
 st.write("---")
 render_goal_tasks_section(daily, all_data)
@@ -44,4 +41,3 @@ render_daily_numeric_section("💤 睡眠（時間）", config.SLEEP_CSV, "hours
 st.write("---")
 render_rpg_section(config.RPG_EX_CSV)
 st.write("---")
-save_json(config.DATA_FILE, all_data)
