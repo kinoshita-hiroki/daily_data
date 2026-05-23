@@ -76,10 +76,17 @@ def render_weather_section(data, today):
                 st.write("データなし")
 
 def render_goal_tasks_section(data, all_data):
-    st.subheader("🎯 目標・タスク")
-    goal = st.text_input("今日の目標", value=data.get("goal", ""))
-    data["goal"] = goal
+    st.subheader("❤️‍🔥 やりたいこと")
+    feeling = st.text_input("今日一番大事にしたい気持ち", value=data.get("feeling", ""))
+    data["feeling"] = feeling
 
+    not_todo = st.text_input("今日やらないこと", value=data.get("not_todo", ""))
+    data["not_todo"] = not_todo
+
+    ideal_self = st.text_input("今日はどんな人でいたいか", value=data.get("ideal_self", ""))
+    data["ideal_self"] = ideal_self
+
+    st.subheader("🎯 タスク")
     tasks = data.setdefault("tasks", [])
     new_task = st.text_input("新しいタスクを追加", key="new_task_input")
     if st.button("追加", key="add_task_btn"):
@@ -101,6 +108,33 @@ def render_goal_tasks_section(data, all_data):
                 st.rerun()
     save_json(config.DATA_FILE, all_data)
 
+def render_gastrointestinal_section(data, today):
+    st.subheader("🩺 今日の体調")
+    condition_map = {
+        "□ 未定 ": "□",
+        "◎ とても良い": "◎",
+        "◯ 良い": "◯",
+        "△ 普通": "△",
+        "× 悪い": "×"
+    }
+
+    # 既存値があればそれを初期値に
+    current = data[str(today)].get("condition", "□")
+
+    reverse_map = {v: k for k, v in condition_map.items()}
+    default_label = reverse_map.get(current, "□ 未定")
+
+    selected = st.radio(
+        "今日の体調を選んでください",
+        options=list(condition_map.keys()),
+        index=list(condition_map.keys()).index(default_label)
+    )
+
+    data[str(today)]["condition"] = condition_map[selected]
+    save_json(config.DATA_FILE, data)
+
+
+
 def render_everyday_checklist_section(check_items):
     today = date.today().isoformat()
 
@@ -111,7 +145,7 @@ def render_everyday_checklist_section(check_items):
     if today not in data:
         data[today] = {item: False for item in check_items}
 
-    st.subheader("毎日チェックリスト")
+    st.subheader("1日1回でも出来ればおｋ！")
 
     for item in check_items:
         data[today][item] = st.checkbox(
@@ -153,6 +187,46 @@ def render_daily_numeric_section(title, csv_path, column_name, min_val, max_val,
             max_value=max_val,
             value=default,
             step=step
+        )
+
+        if st.button(f"記録する ({title})"):
+            df = append_or_update(df, today, column_name, val)
+            save_csv(df, csv_path)
+            st.success("記録しました")
+            st.rerun()
+
+def render_daily_numeric_float_section(title, csv_path, column_name, min_val, max_val, step, default, format="%.1f"):
+    st.subheader(title)
+
+    df = load_csv(csv_path, ["date", column_name])
+    today = iso(date.today())
+
+    if today in df["date"].values:
+        current = float(df.loc[df["date"] == today, column_name].values[0])
+        st.info(f"本日の記録あり: {current}")
+
+        new_val = st.number_input(
+            "修正する場合",
+            min_value=float(min_val),
+            max_value=float(max_val),
+            value=current,
+            step=float(step),
+            format=format
+        )
+
+        if st.button(f"更新 ({title})"):
+            df = append_or_update(df, today, column_name, new_val)
+            save_csv(df, csv_path)
+            st.success("更新しました")
+            st.rerun()
+    else:
+        val = st.number_input(
+            f"{title}を記録",
+            min_value=float(min_val),
+            max_value=float(max_val),
+            value=float(default),
+            step=float(step),
+            format=format
         )
 
         if st.button(f"記録する ({title})"):
