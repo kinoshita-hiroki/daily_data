@@ -18,7 +18,7 @@ class Concentrate(Skill):
         # Apply Buff
         target.stats.magic_atk += self.buff_amount
         battle.log.append(f"{target.name}の魔法攻撃力が上がった！")
-        
+
         # Add Buff Effect (for tracking duration and removal)
         effect = StatBuffEffect(
             name="集中",

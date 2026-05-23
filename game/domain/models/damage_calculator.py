@@ -10,4 +10,4 @@ class DamageCalculator:
         atk = attacker.stats.magic_atk
         defense = defender.stats.magic_resistance
         return base_damage * (3 * atk) / (2 * atk + defense)
-    
+

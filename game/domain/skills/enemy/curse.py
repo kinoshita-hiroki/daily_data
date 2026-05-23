@@ -1,7 +1,9 @@
+import random
+
 from game.domain.effect.curse_effect import CurseEffect
 from game.domain.skills.skill import Skill
 from game.skill_util import calculate_condition_avg
-import random
+
 
 class Curse(Skill):
     def apply(self, actor, target, battle):

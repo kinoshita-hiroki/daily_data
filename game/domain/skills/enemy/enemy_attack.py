@@ -9,6 +9,7 @@ if TYPE_CHECKING:
     from game.domain.models.character import Character
 from game.domain.models.damage_calculator import DamageCalculator
 
+
 class EnemyAttack(Skill):
 
     def use(self, actor: "Character", targets: List["Character"], battle: "Battle") -> None:

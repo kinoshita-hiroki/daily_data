@@ -1,4 +1,3 @@
-import random
 
 from game.domain.models.damage_calculator import DamageCalculator
 from game.domain.skills.skill import Skill

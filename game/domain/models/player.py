@@ -1,6 +1,5 @@
 from dataclasses import dataclass
 
-from game.domain.factory.skill_factory import create_skill
 from game.domain.models.character import Character
 from game.domain.models.job import Job
 
@@ -11,7 +10,7 @@ class Player(Character):
     level: int = 1
     exp: int = 0
     next_exp: int = 10
-        
+
 
     def apply_exp(self, gained_exp: int):
         level_ups = 0

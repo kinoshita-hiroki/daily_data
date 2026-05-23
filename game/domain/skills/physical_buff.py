@@ -1,7 +1,4 @@
 from dataclasses import dataclass
-from datetime import datetime
-import pandas as pd
-import os
 
 from game.domain.effect.buff_effect import StatBuffEffect
 from game.domain.models.target_type import TargetType
@@ -17,7 +14,7 @@ class PhysicalBuff(Skill):
 
     def apply(self, actor, target, battle):
         buff_amount = calculate_workout_done_sum(actor.job) // 10
-        
+
         battle.log.append(f"{actor.name}はこれまでの鍛錬を力に変えた！ (上昇量: {buff_amount})")
 
         if buff_amount > 0:
@@ -29,7 +26,7 @@ class PhysicalBuff(Skill):
                 stat_name="atk",
                 amount=buff_amount
             ))
-            
+
             # 防御力アップ
             target.stats.defense += buff_amount
             target.add_effect(StatBuffEffect(
@@ -47,7 +44,7 @@ class PhysicalBuff(Skill):
                 stat_name="magic_resistance",
                 amount=buff_amount
             ))
-            
+
             battle.log.append(f"{target.name}の攻撃力と防御力、魔法防御力が {buff_amount} 上がった！")
         else:
             battle.log.append("まだ十分な鍛錬を積んでいないようだ...")

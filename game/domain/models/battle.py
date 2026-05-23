@@ -30,7 +30,7 @@ class Battle:
             p for p in self.enemies
             if p.is_alive()
         ]
-    
+
     def execute(self, command: Command) -> None:
         actor = command.actor
         skill = command.skill
@@ -73,7 +73,7 @@ class Battle:
 
             command = enemy.decide_command()
             self.execute(command)
- 
+
 
     def process_turn_start(self) -> None:
         for c in self.all_characters():

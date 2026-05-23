@@ -3,21 +3,20 @@ from game.domain.skills.area_heal import AreaHeal
 from game.domain.skills.attack import Attack
 from game.domain.skills.brave_attack import BraveAttack
 from game.domain.skills.concentrate import Concentrate
+from game.domain.skills.enemy.curse import Curse
 from game.domain.skills.enemy.enemy_attack import EnemyAttack
 from game.domain.skills.enemy.poison_attack import PoisonAttack
 from game.domain.skills.enemy.rampage import Rampage
+from game.domain.skills.enemy.vengeance import Vengeance
 from game.domain.skills.fireball import Fireball
 from game.domain.skills.heal import Heal
-from game.domain.skills.power_strike import PowerStrike
-from game.domain.skills.spear import Spear
-from game.domain.skills.enemy.vengeance import Vengeance
-from game.domain.skills.enemy.curse import Curse
-from game.domain.skills.skill_attack import SkillAttack
 from game.domain.skills.knowledge_eruption import KnowledgeEruption
-from game.domain.skills.yoga_strike import YogaStrike
 from game.domain.skills.meditation import Meditation
-
 from game.domain.skills.physical_buff import PhysicalBuff
+from game.domain.skills.power_strike import PowerStrike
+from game.domain.skills.skill_attack import SkillAttack
+from game.domain.skills.spear import Spear
+from game.domain.skills.yoga_strike import YogaStrike
 
 SKILL_REGISTRY = {
     "攻撃": lambda: Attack(

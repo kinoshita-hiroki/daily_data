@@ -110,7 +110,7 @@ def render_command(battle):
     # ui/battle_ui.py（例）
     # ① スキル選択
     selected_skill = skill_select_ui(actor)
-    
+
     # ② ターゲット選択（必要な場合のみ）
     target = None
     if selected_skill.target_type.requires_target():
@@ -120,7 +120,7 @@ def render_command(battle):
             actor=actor
         )
     # ③ 実行
-    
+
     if st.button("▶ 行動実行"):
         # MP不足チェック
         if not selected_skill.check_cost(actor, battle):
@@ -169,7 +169,7 @@ def render_exp_charts(log_csv):
         all_dates = pd.date_range(start=df_daily["date"].min(), end=df_daily["date"].max())
         all_chars = ["勇者", "戦士", "魔法使い", "僧侶"]
         mux = pd.MultiIndex.from_product([all_dates, all_chars], names=["date", "character"])
-        
+
         df_full = df_daily.set_index(["date", "character"]).reindex(mux, fill_value=0).reset_index()
         df_full = df_full.sort_values(["character", "date"])
 

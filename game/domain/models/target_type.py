@@ -8,9 +8,8 @@ class TargetType(Enum):
     ENEMY_ALL = auto()
     ALLY_ALL = auto()
     ALLY_RANDOM = auto()
-    
+
     def requires_target(self):
         if self in [self.ENEMY_SINGLE , self.ALLY_SINGLE] :
             return True
 
- 

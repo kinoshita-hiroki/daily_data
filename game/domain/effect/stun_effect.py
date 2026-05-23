@@ -1,5 +1,7 @@
 from dataclasses import dataclass
+
 from game.domain.effect.effect import Effect
+
 
 @dataclass
 class StunEffect(Effect):

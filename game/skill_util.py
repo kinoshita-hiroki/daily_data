@@ -1,7 +1,18 @@
-from app.config.config import DATA_FILE, CONDITION_CSV, WORKOUT_CSV, HUMAN_SKILL_CSV, STUDY_TIME_CSV, YOGA_CSV, MEDITATION_CSV
-import pandas as pd
-import os
 import json
+import os
+
+import pandas as pd
+
+from app.config.config import (
+    CONDITION_CSV,
+    DATA_FILE,
+    HUMAN_SKILL_CSV,
+    MEDITATION_CSV,
+    STUDY_TIME_CSV,
+    WORKOUT_CSV,
+    YOGA_CSV,
+)
+
 
 def load_json(path):
     with open(path, "r") as f:
@@ -13,7 +24,7 @@ def calculate_task_sum() -> int:
     path = DATA_FILE
     if not os.path.exists(path):
         return 5 # デフォルト値
-    
+
     data = load_json(path)
     total_done = 0
     for date_data in data.values():
@@ -27,7 +38,7 @@ def calculate_condition_avg() -> float:
     path = CONDITION_CSV 
     if not os.path.exists(path):
         return 3 # デフォルト値
-    
+
     df = pd.read_csv(path)
     df_tail = df.tail(5)
     df_tail["condition"] = df_tail["condition"].astype(float).copy()
@@ -37,7 +48,7 @@ def calculate_workout_done_sum(job) -> int:
     path = WORKOUT_CSV
     if not os.path.exists(path):
         return 0
-    
+
     try:
         df = pd.read_csv(path)
         done_total = df[df["done"] == 1]
@@ -50,7 +61,7 @@ def calculate_human_skill_last_value() -> int:
     path = HUMAN_SKILL_CSV
     if not os.path.exists(path):
         return 0
-    
+
     try:
         df = pd.read_csv(path)
         if df.empty:
@@ -63,7 +74,7 @@ def calculate_study_time_ma() -> float:
     path = STUDY_TIME_CSV
     if not os.path.exists(path):
         return 0.0
-    
+
     try:
         df = pd.read_csv(path)
         if df.empty:
@@ -78,7 +89,7 @@ def calculate_yoga_total_time() -> int:
     path = YOGA_CSV
     if not os.path.exists(path):
         return 0
-    
+
     try:
         df = pd.read_csv(path)
         if df.empty:
@@ -92,7 +103,7 @@ def calculate_meditation_total_time() -> int:
     path = MEDITATION_CSV
     if not os.path.exists(path):
         return 0
-    
+
     try:
         df = pd.read_csv(path)
         if df.empty:

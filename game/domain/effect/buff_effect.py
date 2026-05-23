@@ -1,7 +1,6 @@
 from dataclasses import dataclass
 
 from game.domain.effect.effect import Effect
-from game.domain.models.stats import Stats
 
 
 @dataclass

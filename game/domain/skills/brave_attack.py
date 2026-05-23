@@ -2,7 +2,6 @@ from dataclasses import dataclass
 
 from game.domain.effect.buff_effect import StatBuffEffect
 from game.domain.models.damage_calculator import DamageCalculator
-from game.domain.models.target_type import TargetType
 from game.domain.skills.skill import Skill
 from game.skill_util import calculate_task_sum
 
@@ -15,7 +14,7 @@ class BraveAttack(Skill):
     def apply(self, actor, target, battle):
         # バフ量計算
         buff_amount = calculate_task_sum() // 20
-        
+
         # 1. 敵単体への攻撃
         dmg = DamageCalculator.physical(actor, target, base_damage=actor.stats.atk * 1.5)
         target.take_damage(dmg)
