@@ -7,12 +7,9 @@ import app.config.config as config
 import app.config.training as training
 from app.ui import (
     render_daily_numeric_section,
-    render_everyday_checklist_section,
-    render_gastrointestinal_section,
     render_goal_tasks_section,
     render_rpg_section,
     render_top_image_base64,
-    render_weather_section,
 )
 from app.utils import iso, load_json
 
@@ -30,13 +27,8 @@ today_dt = date.today()
 today_key = iso(today_dt)
 daily = all_data.setdefault(today_key, {"goal": "", "tasks": [], "city": "Tokushima", "weather": {}})
 
-render_weather_section(daily, today_dt)
 st.write("---")
 render_goal_tasks_section(daily, all_data)
-st.write("---")
-render_everyday_checklist_section(training.EVERY_DAY_CHECKLIST)
-# st.write("---")
-# render_gastrointestinal_section(all_data, today_dt)
 st.write("---")
 render_daily_numeric_section("💓 メンタル", config.MENTAL_CSV, "mental", 0, 10, 1, 5)
 st.write("---")
@@ -54,5 +46,3 @@ else:
 st.write("---")
 render_rpg_section(config.RPG_EX_CSV)
 st.write("---")
-
-

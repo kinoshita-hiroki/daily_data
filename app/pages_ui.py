@@ -187,8 +187,6 @@ def render_self_check_page():
     st.title("👩‍⚕️ 定期検診")
 
     render_daily_numeric_float_section("📉 体重", config.WEIGHT_CSV, "weight", 0, 100, 1, 60)
-    render_daily_numeric_section("⛔ ハーディネスの記録", config.HARDINESS_CSV, "hardiness", 0, 50, 1, 20)
-    # render_daily_numeric_section("💤 セルフケアの記録", config.SELF_CARE_CSV, "self_care", 0, 20, 1, 15)
     render_daily_numeric_section("🗣️ ヒューマンスキル記録", config.HUMAN_SKILL_CSV, "human_skill", 0, 55, 1, 30)
     render_daily_numeric_section("🗨️ 境界線の記録", config.BOUNDARY_CSV, "boundary", 0, 5, 1, 5)
 
@@ -213,15 +211,15 @@ def render_report_page():
     st.subheader("過去のタスク達成数")
     # Altairを使用して棒グラフと折れ線グラフを重ねる
     base = alt.Chart(df).encode(x=alt.X('date:T', title='日付'))
-    
+
     bar = base.mark_bar(color='lightblue', opacity=0.7).encode(
         y=alt.Y('done:Q', title='達成数')
     )
-    
+
     line = base.mark_line(color='green', strokeWidth=3).encode(
         y=alt.Y('done_ma:Q', title='達成数')
     )
-    
+
     chart_task = (bar + line).interactive()
     st.altair_chart(chart_task, use_container_width=True)
     df_mental = pd.read_csv(config.MENTAL_CSV)
@@ -245,10 +243,6 @@ def render_report_page():
         y=alt.Y('weight:Q', scale=alt.Scale(domain=[60, 70]), title='体重 (kg)')
     ).interactive()
     st.altair_chart(chart_weight, width="stretch")
-
-    # st.subheader("ハーディネス（精神的弾力性）")
-    # df_hardiness = pd.read_csv(config.HARDINESS_CSV)
-    # st.line_chart(df_hardiness.set_index("date")["hardiness"])
 
     st.subheader("ヒューマンスキル")
     df_human_skill = pd.read_csv(config.HUMAN_SKILL_CSV)
