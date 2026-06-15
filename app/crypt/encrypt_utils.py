@@ -4,11 +4,13 @@ import os
 
 import pandas as pd
 from cryptography.fernet import Fernet, InvalidToken
+from dotenv import load_dotenv
 
 
 def get_fernet_from_env(env_name="FERNET_KEY"):
     """環境変数からキーを取得して Fernet オブジェクトを返す。
        Key が無ければ None を返す（呼び出し側でエラーハンドリングを）"""
+    load_dotenv()
     key = os.getenv(env_name)
     if not key:
         return None

@@ -13,7 +13,8 @@ import streamlit as st
 from PIL import Image
 
 import app.config.config as config
-from app.utils import append_or_update, iso, load_csv, load_json, save_csv, save_json
+from app.utils import append_or_update, iso, load_csv, save_csv, save_json
+
 
 def get_fernet():
     fernet = get_fernet_from_env()

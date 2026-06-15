@@ -4,7 +4,6 @@ from datetime import date
 import streamlit as st
 
 import app.config.config as config
-import app.config.training as training
 from app.ui import (
     render_daily_numeric_section,
     render_goal_tasks_section,
