@@ -1,10 +1,10 @@
 from unittest.mock import MagicMock, patch
 
 import pytest
-from game.domain.effect.curse_effect import CurseEffect
-from game.domain.skills.enemy.curse import Curse
 
+from game.domain.effect.curse_effect import CurseEffect
 from game.domain.models.stats import Stats
+from game.domain.skills.enemy.curse import Curse
 from game.domain.skills.enemy.vengeance import Vengeance
 
 

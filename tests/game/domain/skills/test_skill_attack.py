@@ -1,6 +1,7 @@
 from unittest.mock import MagicMock, patch
 
 import pytest
+
 from game.domain.skills.skill_attack import SkillAttack
 
 
