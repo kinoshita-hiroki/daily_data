@@ -1,6 +1,7 @@
 import os
 import tempfile
-from crypt.encrypt_utils import (
+from unittest.mock import patch
+from app.crypt.encrypt_utils import (
     get_fernet_from_env,
     load_encrypted_csv,
     save_encrypted_csv,
@@ -23,8 +24,9 @@ def test_get_fernet_from_env_success(monkeypatch):
 def test_get_fernet_from_env_none(monkeypatch):
     monkeypatch.delenv("FERNET_KEY", raising=False)
 
-    f = get_fernet_from_env("FERNET_KEY")
-    assert f is None
+    with patch("app.crypt.encrypt_utils.load_dotenv"):
+        f = get_fernet_from_env("FERNET_KEY")
+        assert f is None
 
 
 # ---------- save_encrypted_csv / load_encrypted_csv ----------
