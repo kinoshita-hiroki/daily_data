@@ -48,3 +48,7 @@ docker-compose up -d --build
 - `docker-compose.yml` / `Dockerfile`: Dockerコンテナの構成ファイル
 
 ## 工夫した点
+
+## 参考画像
+![トップページ](docs/screenshots/top.png)
+![レポートページ](docs/screenshots/report.png)
