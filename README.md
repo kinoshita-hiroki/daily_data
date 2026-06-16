@@ -50,5 +50,5 @@ docker-compose up -d --build
 ## 工夫した点
 
 ## 参考画像
-![トップページ](docs/top.png)
-![レポートページ](docs/report.png)
+![トップページ](docs/top2.png)
+![レポートページ](docs/report2.png)
