@@ -1,11 +1,6 @@
 # --------------------------
 # UI Helpers
 # --------------------------
-from crypt.encrypt_utils import (
-    get_fernet_from_env,
-    load_encrypted_csv,
-    save_encrypted_csv,
-)
 from datetime import date, datetime
 
 import pandas as pd
@@ -13,6 +8,11 @@ import streamlit as st
 from PIL import Image
 
 import app.config.config as config
+from app.crypt.encrypt_utils import (
+    get_fernet_from_env,
+    load_encrypted_csv,
+    save_encrypted_csv,
+)
 from app.utils import append_or_update, iso, load_csv, save_csv, save_json
 
 
@@ -224,4 +224,50 @@ def render_observation_regist():
             # 保存
             save_encrypted_csv(config.ENCRYPT_OBSERVATION_CSV, df, fernet)
             st.success("記録しました！")
+
+
+def update_diary_dataframe(df, date_str, fact, feeling):
+    df["日付"] = df["日付"].astype(str)
+    if date_str in df["日付"].values:
+        df.loc[df["日付"] == date_str, "事実"] = fact
+        df.loc[df["日付"] == date_str, "気持ち"] = feeling
+    else:
+        new_row = pd.DataFrame([[date_str, fact, feeling]], columns=["日付", "事実", "気持ち"])
+        df = pd.concat([df, new_row], ignore_index=True)
+    return df
+
+
+def render_diary_section(csv_path):
+    st.subheader("📖 今日の日記")
+    fernet = get_fernet()
+    if fernet is None:
+        st.error("環境変数 FERNET_KEY が設定されていないため、日記機能は利用できません。")
+        return
+
+    try:
+        df = load_encrypted_csv(csv_path, fernet, columns=["日付", "事実", "気持ち"])
+    except Exception:
+        df = pd.DataFrame(columns=["日付", "事実", "気持ち"])
+
+    today_str = date.today().isoformat()
+    df["日付"] = df["日付"].astype(str)
+    today_df = df[df["日付"] == today_str]
+
+    if not today_df.empty:
+        default_fact = today_df.iloc[0]["事実"]
+        default_feeling = today_df.iloc[0]["気持ち"]
+    else:
+        default_fact = ""
+        default_feeling = ""
+
+    fact = st.text_area("事実 (今日あったこと、行動など)", value=default_fact, key="diary_fact")
+    feeling = st.text_area("気持ち (感じたこと、内面の変化など)", value=default_feeling, key="diary_feeling")
+
+    if st.button("日記を保存する", key="save_diary_btn"):
+        df = update_diary_dataframe(df, today_str, fact, feeling)
+        save_encrypted_csv(csv_path, df, fernet)
+        st.success("日記を保存しました！")
+        st.rerun()
+
+
 

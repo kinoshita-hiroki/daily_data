@@ -1,10 +1,9 @@
-from crypt.encrypt_utils import load_encrypted_csv, save_encrypted_csv
-
 import pandas as pd
 import streamlit as st
 from dotenv import load_dotenv
 
 import app.config.config as config
+from app.crypt.encrypt_utils import load_encrypted_csv, save_encrypted_csv
 from app.ui import get_fernet, render_top_image_base64
 
 

@@ -20,6 +20,7 @@ WORKOUT_CSV = "logs/workout_log.csv"
 # crypt
 ENCRYPT_SENTIMENT_CSV = "logs/crypt/encrypt_sentiment_logs.csv"
 ENCRYPT_OBSERVATION_CSV = "logs/crypt/encrypt_observation_logs.csv"
+ENCRYPT_DIARY_CSV = "logs/crypt/encrypt_diary_logs.csv"
 SENTIMENT_CSV = "logs/crypt/sentiment_logs.csv"
 OBSERVATION_CSV = "logs/crypt/observation_logs.csv"
 SENTIMENT_TMP_CSV = "logs/crypt/sentiment_logs_tmp.csv"

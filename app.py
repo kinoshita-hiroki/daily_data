@@ -6,6 +6,7 @@ import streamlit as st
 import app.config.config as config
 from app.ui import (
     render_daily_numeric_section,
+    render_diary_section,
     render_goal_tasks_section,
     render_rpg_section,
     render_top_image_base64,
@@ -44,4 +45,6 @@ else:
     render_daily_numeric_section("🧘 ヨガ", config.YOGA_CSV, "yoga", 0, 120, 5, 0)
 st.write("---")
 render_rpg_section(config.RPG_EX_CSV)
+st.write("---")
+render_diary_section(config.ENCRYPT_DIARY_CSV)
 st.write("---")
