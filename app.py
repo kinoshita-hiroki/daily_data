@@ -36,15 +36,11 @@ render_daily_numeric_section("👨‍⚕️ 体調", config.CONDITION_CSV, "cond
 st.write("---")
 render_daily_numeric_section("✍ 勉強時間", config.STUDY_TIME_CSV, "study_time", 0, 600, 15, 0)
 st.write("---")
-render_daily_numeric_section("👨‍⚕️ 空腹時間", config.HUNG_CSV, "hung_time", 0, 700, 15, 0)
-st.write("---")
 activity_type = st.radio("Activity", ["瞑想", "ヨガ"], horizontal=True, label_visibility="collapsed")
 if activity_type == "瞑想":
     render_daily_numeric_section("🧘 瞑想・写経", config.MEDITATION_CSV, "meditation", 0, 120, 5, 0)
 else:
     render_daily_numeric_section("🧘 ヨガ", config.YOGA_CSV, "yoga", 0, 120, 5, 0)
-st.write("---")
-render_rpg_section(config.RPG_EX_CSV)
 st.write("---")
 render_diary_section(config.ENCRYPT_DIARY_CSV)
 st.write("---")
