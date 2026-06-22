@@ -8,7 +8,6 @@ from app.ui import (
     render_daily_numeric_section,
     render_diary_section,
     render_goal_tasks_section,
-    render_rpg_section,
     render_top_image_base64,
 )
 from app.utils import iso, load_json
