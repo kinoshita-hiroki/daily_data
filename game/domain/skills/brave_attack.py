@@ -3,7 +3,7 @@ from dataclasses import dataclass
 from game.domain.effect.buff_effect import StatBuffEffect
 from game.domain.models.damage_calculator import DamageCalculator
 from game.domain.skills.skill import Skill
-from game.skill_util import calculate_task_sum
+from game.domain.skills.skill_util import calculate_task_sum
 
 
 @dataclass

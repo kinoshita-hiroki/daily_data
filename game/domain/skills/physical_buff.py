@@ -3,7 +3,7 @@ from dataclasses import dataclass
 from game.domain.effect.buff_effect import StatBuffEffect
 from game.domain.models.target_type import TargetType
 from game.domain.skills.skill import Skill
-from game.skill_util import calculate_workout_done_sum
+from game.domain.skills.skill_util import calculate_workout_done_sum
 
 
 @dataclass

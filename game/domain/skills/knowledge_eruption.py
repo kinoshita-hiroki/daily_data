@@ -5,7 +5,7 @@ from game.domain.effect.stun_effect import StunEffect
 from game.domain.models.damage_calculator import DamageCalculator
 from game.domain.models.target_type import TargetType
 from game.domain.skills.skill import Skill
-from game.skill_util import calculate_study_time_ma
+from game.domain.skills.skill_util import calculate_study_time_ma
 
 
 @dataclass

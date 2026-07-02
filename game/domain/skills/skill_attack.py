@@ -2,7 +2,7 @@ from dataclasses import dataclass
 
 from game.domain.models.damage_calculator import DamageCalculator
 from game.domain.skills.skill import Skill
-from game.skill_util import calculate_human_skill_last_value
+from game.domain.skills.skill_util import calculate_human_skill_last_value
 
 
 @dataclass
