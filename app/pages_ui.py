@@ -12,14 +12,6 @@ from app.ui import (
     render_daily_numeric_section,
 )
 from app.utils import load_json
-from game.rpg_ui import (
-    render_command,
-    render_enemy_state,
-    render_level_up,
-    render_log,
-    render_party_state,
-)
-from game.session_state import init_state
 
 # 保存先 CSV
 CSV_PATH = config.WORKOUT_CSV
@@ -282,20 +274,3 @@ def render_report_page():
     st.altair_chart(chart_workout, width="stretch")
 
 
-def render_rpg_page():
-    st.title("⚔️ 4人パーティバトル")
-
-    # 初期化
-    init_state()
-
-    battle = st.session_state.battle
-
-    render_enemy_state(battle)
-    st.divider()
-    render_party_state(battle)
-    st.divider()
-    render_command(battle)
-    st.divider()
-    render_log(battle)
-    st.divider()
-    render_level_up(battle)
