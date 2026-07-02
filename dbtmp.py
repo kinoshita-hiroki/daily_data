@@ -1,4 +1,6 @@
+import json
 import sqlite3
+from pprint import pprint
 
 conn = sqlite3.connect("data/task_rpg.db")
 cursor = conn.cursor()
@@ -32,14 +34,14 @@ FROM task_logs
 
 print(cursor.fetchall())
 
-import json
+
 
 with open("logs/daily_data.json", encoding="utf-8") as f:
     data = json.load(f)
 
 print(type(data))
 
-from pprint import pprint
+
 
 first_day = next(iter(data))
 pprint(data[first_day])
