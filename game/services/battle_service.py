@@ -2,7 +2,7 @@ from game.domain.models.command import Command
 
 
 class BattleService:
-
+    @staticmethod
     def execute_player_turn(
         self,
         battle,
