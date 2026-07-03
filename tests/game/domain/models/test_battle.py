@@ -31,8 +31,8 @@ def mock_enemy():
 
 def test_battle_initialization(mock_player, mock_enemy):
     battle = Battle(players=[mock_player], enemies=[mock_enemy])
-    assert battle.turn == 0
-    assert len(battle.all_characters()) == 2
+    assert battle.actor_index == 0
+    assert len(battle.all_actors()) == 2
 
 def test_battle_is_finished(mock_player, mock_enemy):
     battle = Battle(players=[mock_player], enemies=[mock_enemy])

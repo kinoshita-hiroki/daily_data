@@ -13,10 +13,10 @@ from game.domain.skills.skill import Skill
 class Battle:
     players: List[Player]
     enemies: List[Enemy]
-    turn: int = 0
+    actor_index: int = 0
     log: list = field(default_factory=list)
 
-    def all_characters(self) -> List[Character]:
+    def all_actors(self) -> List[Character]:
         return self.players + self.enemies
 
     def alive_players(self) -> List[Player]:
@@ -40,10 +40,10 @@ class Battle:
         self.next_turn()
 
     def next_actor(self) -> Tuple[int, Character]:
-        order = self.all_characters()
+        order = self.all_actors()
         if not order:
             raise ValueError("No characters in battle")
-        return (self.turn % len(order)), order[self.turn % len(order)]
+        return (self.actor_index % len(order)), order[self.actor_index % len(order)]
 
     def get_actor(self, actor_id: int) -> Character:
         actors = self.players + self.enemies
@@ -52,11 +52,11 @@ class Battle:
         raise IndexError(f"Actor id {actor_id} out of range")
 
     def next_turn(self) -> None:
-        self.turn += 1
-        if self.turn >= len(self.players) + len(self.enemies):
-            self.turn = 0
+        self.actor_index += 1
+        if self.actor_index >= len(self.players) + len(self.enemies):
+            self.actor_index = 0
             self.process_turn_start()
-        if self.turn >= len(self.players):
+        if self.actor_index >= len(self.players):
             self.enemy_turn()
 
     def enemy_turn(self) -> None:
@@ -76,7 +76,7 @@ class Battle:
 
 
     def process_turn_start(self) -> None:
-        for c in self.all_characters():
+        for c in self.all_actors():
             if c.is_alive():
                 for effect in c.effects[:]:
                     effect.on_turn_start(c, self)

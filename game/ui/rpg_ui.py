@@ -44,7 +44,7 @@ def render_enemy_state(battle):
 
 def render_party_state(battle):
     for i, m in enumerate(battle.players):
-        marker = "▶" if i == battle.turn and m.stats.hp > 0 else "  "
+        marker = "▶" if i == battle.actor_index and m.stats.hp > 0 else "  "
         st.write(
             f"{marker} {m.name} "
             f"HP:{int(m.stats.hp)}/{int(m.stats.max_hp)} "

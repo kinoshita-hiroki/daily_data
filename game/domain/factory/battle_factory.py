@@ -6,4 +6,4 @@ from game.domain.models.battle import Battle
 def create_battle(jobs: list[str], enemies: list[str]) -> Battle:
     players = [create_player(job) for job in jobs]
     enemies = [create_enemy(enemy) for enemy in enemies]
-    return Battle(players=players, enemies=enemies, turn=0)
+    return Battle(players=players, enemies=enemies, actor_index=0)
