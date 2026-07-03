@@ -42,7 +42,7 @@ RPG_ENEMY_JSON = "logs/rpg/enemy_state.json"
 RPG_STATE_JSON = "logs/rpg/character_state.json"
 
 # images
-TOP_IMAGE_PATH = "data/totoro.jpg"
+TOP_IMAGE_PATH = "data/reimu.jpeg"
 TOP_IMAGE_PATH1 = "data/igi.jpg"
 TOP_IMAGE_PATH2 = "data/freelen.jpg"
 TOP_IMAGE_PATH3 = "data/jyotaro.jpg"
