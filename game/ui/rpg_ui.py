@@ -112,7 +112,7 @@ def render_command(battle):
         return
 
     player_idx, actor = battle.next_actor()
-    
+
     if not BattleService.check_turn_status(battle, actor):
         st.rerun()
 
