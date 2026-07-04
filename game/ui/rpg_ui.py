@@ -112,14 +112,8 @@ def render_command(battle):
         return
 
     player_idx, actor = battle.next_actor()
-    if not(actor.is_alive()):
-        battle.log.append(f"{actor.name}は倒れている…")
-        battle.next_turn()
-        st.rerun()
-
-    if not actor.can_act():
-        # battle.log.append(f"{actor.name}は動けない！") # Effect.on_turn_start でメッセージを出している想定
-        battle.next_turn()
+    
+    if not BattleService.check_turn_status(battle, actor):
         st.rerun()
 
     st.subheader(f"▶ {actor.name} のターン")
