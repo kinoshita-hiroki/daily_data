@@ -114,7 +114,6 @@ def render_command(battle):
     player_idx, actor = battle.current_actor()
 
     if not BattleService.check_turn_status(battle, actor):
-        battle.next_turn()
         st.rerun()
 
     st.subheader(f"▶ {actor.name} のターン")

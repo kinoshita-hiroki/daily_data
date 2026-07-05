@@ -37,7 +37,6 @@ class Battle:
         targets = self.resolve_targets(skill, command.target, actor)
 
         skill.use(actor, targets, self)
-        self.next_turn()
 
     def current_actor(self) -> Tuple[int, Character]:
         order = self.all_actors()
@@ -46,18 +45,19 @@ class Battle:
         return (self.actor_index % len(order)), order[self.actor_index % len(order)]
 
     def next_turn(self) -> None:
+        # 次の行動者へ
         self.actor_index += 1
+
+        # 行動者がいなくなったら
         if self.actor_index >= len(self.players) + len(self.enemies):
             self.actor_index = 0
             self.process_turn_start()
+        # 敵ターン
         if self.actor_index >= len(self.players):
             self.enemy_turn()
 
     def enemy_turn(self) -> None:
-        for i in range(len(self.enemies)):
-            enemy = self.enemies[i]
-            if not enemy.is_alive():
-                continue
+        for enemy in self.alive_enemies():
 
             targets = self.alive_players()
             if not targets:
@@ -67,6 +67,7 @@ class Battle:
 
             command = enemy.decide_command()
             self.execute(command)
+            self.next_turn()
 
 
     def process_turn_start(self) -> None:
