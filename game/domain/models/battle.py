@@ -39,17 +39,11 @@ class Battle:
         skill.use(actor, targets, self)
         self.next_turn()
 
-    def next_actor(self) -> Tuple[int, Character]:
+    def current_actor(self) -> Tuple[int, Character]:
         order = self.all_actors()
         if not order:
             raise ValueError("No characters in battle")
         return (self.actor_index % len(order)), order[self.actor_index % len(order)]
-
-    def get_actor(self, actor_id: int) -> Character:
-        actors = self.players + self.enemies
-        if 0 <= actor_id < len(actors):
-            return actors[actor_id]
-        raise IndexError(f"Actor id {actor_id} out of range")
 
     def next_turn(self) -> None:
         self.actor_index += 1
