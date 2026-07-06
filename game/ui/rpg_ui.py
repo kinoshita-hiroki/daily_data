@@ -104,6 +104,14 @@ def target_select_ui(battle: Battle, skill: Skill, actor: Player) -> Optional[Ch
 
 def render_command(battle):
 
+    # actor = BattleService.prepare_player_input(battle)
+
+    # if actor is None:
+    #     st.rerun()
+    #     return
+
+    # # あとはUIだけ
+
     if battle.is_finished():
         st.success("戦闘終了")
         if st.button("🔄 もう一度"):

@@ -7,7 +7,6 @@ from game.domain.models.enemy import Enemy
 from game.domain.models.player import Player
 from game.domain.models.target_type import TargetType
 from game.domain.skills.skill import Skill
-from game.services.battle_service import BattleService
 
 
 @dataclass
@@ -44,31 +43,6 @@ class Battle:
         if not order:
             raise ValueError("No characters in battle")
         return (self.actor_index % len(order)), order[self.actor_index % len(order)]
-
-    def next_turn(self) -> None:
-        # 次の行動者へ
-        self.actor_index += 1
-
-        # 行動者がいなくなったら
-        if self.actor_index >= len(self.players) + len(self.enemies):
-            self.actor_index = 0
-            self.process_turn_start()
-        # 敵ターン
-        if self.actor_index >= len(self.players):
-            BattleService.enemy_turn(self)
-
-    def process_turn_start(self) -> None:
-        for c in self.all_actors():
-            if c.is_alive():
-                for effect in c.effects[:]:
-                    effect.on_turn_start(c, self)
-                    effect.tick()
-                    if effect.is_expired():
-                        effect.on_remove(c, self)
-                        c.effects.remove(effect)
-                        self.log.append(
-                            f"{c.name}の{effect.name}が解除された"
-                        )
 
 
     def is_finished(self) -> bool:
@@ -113,5 +87,16 @@ class Battle:
             case _:
                 raise ValueError(f"Unknown target_type: {skill.target_type}")
 
-
+    def process_turn_start(self) -> None:
+        for c in self.all_actors():
+            if c.is_alive():
+                for effect in c.effects[:]:
+                    effect.on_turn_start(c, self)
+                    effect.tick()
+                    if effect.is_expired():
+                        effect.on_remove(c, self)
+                        c.effects.remove(effect)
+                        self.log.append(
+                            f"{c.name}の{effect.name}が解除された"
+                        )
 
