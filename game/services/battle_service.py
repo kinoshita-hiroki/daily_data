@@ -36,3 +36,18 @@ class BattleService:
             return False
 
         return True
+
+
+    @staticmethod
+    def enemy_turn(battle) -> None:
+        for enemy in battle.alive_enemies():
+
+            targets = battle.alive_players()
+            if not targets:
+                battle.log.append("💀 全滅…")
+                return
+
+
+            command = enemy.decide_command()
+            battle.execute(command)
+            battle.next_turn()

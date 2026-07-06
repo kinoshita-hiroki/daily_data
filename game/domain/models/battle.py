@@ -7,6 +7,7 @@ from game.domain.models.enemy import Enemy
 from game.domain.models.player import Player
 from game.domain.models.target_type import TargetType
 from game.domain.skills.skill import Skill
+from game.services.battle_service import BattleService
 
 
 @dataclass
@@ -54,21 +55,7 @@ class Battle:
             self.process_turn_start()
         # 敵ターン
         if self.actor_index >= len(self.players):
-            self.enemy_turn()
-
-    def enemy_turn(self) -> None:
-        for enemy in self.alive_enemies():
-
-            targets = self.alive_players()
-            if not targets:
-                self.log.append("💀 全滅…")
-                return
-
-
-            command = enemy.decide_command()
-            self.execute(command)
-            self.next_turn()
-
+            BattleService.enemy_turn(self)
 
     def process_turn_start(self) -> None:
         for c in self.all_actors():
