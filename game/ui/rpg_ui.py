@@ -100,28 +100,32 @@ def target_select_ui(battle: Battle, skill: Skill, actor: Player) -> Optional[Ch
         return player
     return None
 
+def render_battle_result(battle):
+    if not battle.is_finished():
+        return False
+
+    if len(battle.alive_players()) > 0:
+        st.success("勝利！")
+        if st.button("🔄 もう一度"):
+            del st.session_state.battle
+            st.rerun()
+            return True
+    else:
+        st.error("敗北…")
+        if st.button("🔄 もう一度"):
+            del st.session_state.battle
+            st.rerun()
+        return True
+    return False
 
 
 def render_command(battle):
 
-    # actor = BattleService.prepare_player_input(battle)
-
-    # if actor is None:
-    #     st.rerun()
-    #     return
-
-    # # あとはUIだけ
-
-    if battle.is_finished():
-        st.success("戦闘終了")
-        if st.button("🔄 もう一度"):
-            del st.session_state.battle
-            st.rerun()
+    if render_battle_result(battle):
         return
 
-    player_idx, actor = battle.current_actor()
-
-    if not BattleService.check_turn_status(battle, actor):
+    actor = BattleService.prepare_player_input(battle)
+    if actor is None:
         st.rerun()
 
     st.subheader(f"▶ {actor.name} のターン")

@@ -22,20 +22,6 @@ class BattleService:
         BattleService.next_turn(battle)
         battle.check_battle_end()
 
-    @staticmethod
-    def check_turn_status(battle, actor):
-        if not actor.is_alive():
-            battle.log.append(f"{actor.name}は倒れている…")
-            BattleService.next_turn(battle)
-            return False
-
-        if not actor.can_act():
-            # battle.log.append(f"{actor.name}は動けない！") # Effect.on_turn_start でメッセージを出している想定
-            BattleService.next_turn(battle)
-            return False
-
-        return True
-
 
     @staticmethod
     def enemy_turn(battle) -> None:
@@ -64,13 +50,13 @@ class BattleService:
         if battle.actor_index >= len(battle.players):
             BattleService.enemy_turn(battle)
 
-    # @staticmethod
-    # def prepare_player_input(battle):
-    #     actor = battle.current_actor()
+    @staticmethod
+    def prepare_player_input(battle):
+        actor = battle.current_actor()
 
-    #     if actor.is_alive() and actor.can_act():
-    #         return actor
-    #     else:
-    #         battle.next_turn()
-    #         return None
+        if actor.is_alive() and actor.can_act():
+            return actor
+        else:
+            BattleService.next_turn(battle)
+            return None
 

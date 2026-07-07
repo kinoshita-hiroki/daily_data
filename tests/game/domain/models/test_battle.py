@@ -48,9 +48,6 @@ def test_resolve_targets_enemy_single(mock_player, mock_enemy):
     mock_skill = MagicMock()
     mock_skill.target_type = TargetType.ENEMY_SINGLE
 
-    # User targets enemy
-    # resolve_targets accesses get_actor using target (Character object)
-
     targets = battle.resolve_targets(mock_skill, target=mock_enemy)
     assert len(targets) == 1
     assert targets[0] == mock_enemy
