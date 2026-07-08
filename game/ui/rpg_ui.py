@@ -104,19 +104,14 @@ def render_battle_result(battle):
     if not battle.is_finished():
         return False
 
-    if len(battle.alive_players()) > 0:
+    if battle.alive_players():
         st.success("勝利！")
-        if st.button("🔄 もう一度"):
-            del st.session_state.battle
-            st.rerun()
-            return True
     else:
         st.error("敗北…")
-        if st.button("🔄 もう一度"):
-            del st.session_state.battle
-            st.rerun()
-        return True
-    return False
+    if st.button("🔄 もう一度"):
+        del st.session_state.battle
+        st.rerun()
+    return True
 
 
 def render_command(battle):
@@ -127,6 +122,7 @@ def render_command(battle):
     actor = BattleService.prepare_player_input(battle)
     if actor is None:
         st.rerun()
+        return
 
     st.subheader(f"▶ {actor.name} のターン")
     # ui/battle_ui.py（例）
