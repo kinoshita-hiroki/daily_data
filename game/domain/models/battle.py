@@ -1,5 +1,5 @@
 from dataclasses import dataclass, field
-from typing import List, Optional, Tuple
+from typing import List, Optional
 
 from game.domain.models.character import Character
 from game.domain.models.command import Command
@@ -38,12 +38,11 @@ class Battle:
 
         skill.use(actor, targets, self)
 
-    def current_actor(self) -> Tuple[int, Character]:
+    def current_actor(self) -> Character:
         order = self.all_actors()
         if not order:
             raise ValueError("No characters in battle")
-        return (self.actor_index % len(order)), order[self.actor_index % len(order)]
-
+        return order[self.actor_index % len(order)]
 
     def is_finished(self) -> bool:
         return (

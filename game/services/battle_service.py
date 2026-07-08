@@ -1,4 +1,5 @@
 from game.domain.models.command import Command
+from game.domain.models.enemy import Enemy
 
 
 class BattleService:
@@ -46,13 +47,17 @@ class BattleService:
         if battle.actor_index >= len(battle.players) + len(battle.enemies):
             battle.actor_index = 0
             battle.process_turn_start()
-        # 敵ターン
-        if battle.actor_index >= len(battle.players):
-            BattleService.enemy_turn(battle)
+        # # 敵ターン
+        # if battle.actor_index >= len(battle.players):
+        #     BattleService.enemy_turn(battle)
 
     @staticmethod
     def prepare_player_input(battle):
         actor = battle.current_actor()
+
+        if isinstance(actor, Enemy):
+            BattleService.enemy_turn(battle)
+            return None
 
         if actor.is_alive() and actor.can_act():
             return actor
