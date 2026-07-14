@@ -25,18 +25,15 @@ class BattleService:
 
 
     @staticmethod
-    def enemy_turn(battle) -> None:
-        for enemy in battle.alive_enemies():
-
-            targets = battle.alive_players()
-            if not targets:
-                battle.log.append("💀 全滅…")
-                return
+    def execute_enemy_turn(battle,enemy:Enemy) -> None:
+        targets = battle.alive_players()
+        if not targets:
+            battle.log.append("💀 全滅…")
+            return
 
 
-            command = enemy.decide_command()
-            battle.execute(command)
-            BattleService.next_turn(battle)
+        command = enemy.decide_command()
+        battle.execute(command)
 
     @staticmethod
     def next_turn(battle) -> None:
@@ -47,21 +44,22 @@ class BattleService:
         if battle.actor_index >= len(battle.players) + len(battle.enemies):
             battle.actor_index = 0
             battle.process_turn_start()
-        # # 敵ターン
-        # if battle.actor_index >= len(battle.players):
-        #     BattleService.enemy_turn(battle)
+
 
     @staticmethod
     def prepare_player_input(battle):
-        actor = battle.current_actor()
+        while True:
+            actor = battle.current_actor()
 
-        if isinstance(actor, Enemy):
-            BattleService.enemy_turn(battle)
-            return None
-
-        if actor.is_alive() and actor.can_act():
+            if isinstance(actor, Enemy):
+                BattleService.execute_enemy_turn(battle,actor)
+                BattleService.next_turn(battle)
+                continue
+            if not actor.is_alive():
+                BattleService.next_turn(battle)
+                continue
+            if not actor.can_act():
+                BattleService.next_turn(battle)
+                continue
             return actor
-        else:
-            BattleService.next_turn(battle)
-            return None
 
