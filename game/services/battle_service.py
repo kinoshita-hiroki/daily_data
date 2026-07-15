@@ -10,6 +10,7 @@ class BattleService:
         skill,
         target
     ):
+        battle.process_turn_start(actor)
         if not skill.check_cost(actor, battle):
             return
 
@@ -26,12 +27,11 @@ class BattleService:
 
     @staticmethod
     def execute_enemy_turn(battle,enemy:Enemy) -> None:
+        battle.process_turn_start(enemy)
         targets = battle.alive_players()
         if not targets:
             battle.log.append("💀 全滅…")
             return
-
-
         command = enemy.decide_command()
         battle.execute(command)
 
@@ -43,8 +43,9 @@ class BattleService:
         # 行動者がいなくなったら
         if battle.actor_index >= len(battle.players) + len(battle.enemies):
             battle.actor_index = 0
-            battle.process_turn_start()
-
+    @staticmethod
+    def execute_turn(battle,actor):
+        battle.process_turn_start(actor)
 
     @staticmethod
     def prepare_player_input(battle):

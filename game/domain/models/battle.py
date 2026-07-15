@@ -86,16 +86,15 @@ class Battle:
             case _:
                 raise ValueError(f"Unknown target_type: {skill.target_type}")
 
-    def process_turn_start(self) -> None:
-        for c in self.all_actors():
-            if c.is_alive():
-                for effect in c.effects[:]:
-                    effect.on_turn_start(c, self)
-                    effect.tick()
-                    if effect.is_expired():
-                        effect.on_remove(c, self)
-                        c.effects.remove(effect)
-                        self.log.append(
-                            f"{c.name}の{effect.name}が解除された"
-                        )
+    def process_turn_start(self, actor) -> None:
+        if actor.is_alive():
+            for effect in actor.effects[:]:
+                effect.on_turn_start(actor, self)
+                effect.tick()
+                if effect.is_expired():
+                    effect.on_remove(actor, self)
+                    actor.effects.remove(effect)
+                    self.log.append(
+                        f"{actor.name}の{effect.name}が解除された"
+                    )
 
