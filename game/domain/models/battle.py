@@ -50,9 +50,14 @@ class Battle:
             or not self.alive_enemies()
         )
 
-    def check_battle_end(self) -> None:
+    def check_battle_end(self) -> bool:
         if len(self.alive_enemies()) <= 0:
             self.log.append("🎉 勝利！")
+            return True
+        elif len(self.alive_players()) <= 0:
+            self.log.append("💀 全滅…")
+            return True
+        return False
 
     def resolve_targets(self, skill: Skill, target: Optional[Character] = None, actor: Optional[Character] = None) -> List[Character]:
         """
