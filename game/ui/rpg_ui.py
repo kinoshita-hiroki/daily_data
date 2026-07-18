@@ -20,12 +20,14 @@ def render_rpg_page():
 
     battle = st.session_state.battle
 
+    render_command(battle)
+    st.divider()
+
     render_enemy_state(battle)
     st.divider()
     render_party_state(battle)
     st.divider()
-    render_command(battle)
-    st.divider()
+
     render_log(battle)
     st.divider()
     render_level_up(battle)
@@ -104,9 +106,9 @@ def render_battle_result(battle):
     if not battle.is_finished():
         return False
 
-    if battle.alive_players():
+    if battle.is_victory():
         st.success("勝利！")
-    else:
+    elif battle.is_lose():
         st.error("敗北…")
     if st.button("🔄 もう一度"):
         del st.session_state.battle

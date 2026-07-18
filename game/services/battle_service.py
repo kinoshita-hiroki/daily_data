@@ -36,8 +36,6 @@ class BattleService:
         actor = command.actor
         battle.process_turn_start(actor)
         battle.execute(command)
-        if battle.check_battle_end():
-            return
         BattleService.next_turn(battle)
 
 
@@ -55,6 +53,8 @@ class BattleService:
     def prepare_player_input(battle):
         while True:
             actor = battle.current_actor()
+            if battle.is_finished():
+                return None
             if not actor.is_alive():
                 BattleService.next_turn(battle)
                 continue
