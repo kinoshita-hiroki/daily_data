@@ -43,12 +43,12 @@ def render_enemy_state(battle):
         st.progress(boss_hp_rate)
 
 def render_party_state(battle):
-    for i, m in enumerate(battle.players):
-        marker = "▶" if i == battle.actor_index and m.stats.hp > 0 else "  "
+    for player in battle.players:
+        marker = "▶" if player == battle.current_actor() else "  "
         st.write(
-            f"{marker} {m.name} "
-            f"HP:{int(m.stats.hp)}/{int(m.stats.max_hp)} "
-            f"MP:{int(m.stats.mp)}/{int(m.stats.max_mp)}"
+            f"{marker} {player.name} "
+            f"HP:{int(player.stats.hp)}/{int(player.stats.max_hp)} "
+            f"MP:{int(player.stats.mp)}/{int(player.stats.max_mp)}"
         )
 
 def render_log(battle):
