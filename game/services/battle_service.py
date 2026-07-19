@@ -48,13 +48,12 @@ class BattleService:
         if battle.actor_index >= len(battle.players) + len(battle.enemies):
             battle.actor_index = 0
 
-
     @staticmethod
-    def prepare_player_input(battle):
+    def update(battle):
         while True:
-            actor = battle.current_actor()
             if battle.is_finished():
-                return None
+                return 
+            actor = battle.current_actor()
             if not actor.is_alive():
                 BattleService.next_turn(battle)
                 continue
@@ -64,5 +63,6 @@ class BattleService:
             if isinstance(actor, Enemy):
                 BattleService.execute_enemy_turn(battle,actor)
                 continue
-            return actor
+            return
+
 

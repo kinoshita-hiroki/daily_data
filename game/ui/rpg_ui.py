@@ -20,12 +20,14 @@ def render_rpg_page():
 
     battle = st.session_state.battle
 
-    render_command(battle)
-    st.divider()
+    BattleService.update(battle)
 
     render_enemy_state(battle)
     st.divider()
     render_party_state(battle)
+    st.divider()
+
+    render_command(battle)
     st.divider()
 
     render_log(battle)
@@ -121,7 +123,7 @@ def render_command(battle):
     if render_battle_result(battle):
         return
 
-    actor = BattleService.prepare_player_input(battle)
+    actor = battle.current_actor()
     if actor is None:
         st.rerun()
         return
