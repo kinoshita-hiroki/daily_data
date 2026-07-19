@@ -42,11 +42,7 @@ class BattleService:
     @staticmethod
     def next_turn(battle) -> None:
         # 次の行動者へ
-        battle.actor_index += 1
-
-        # 行動者がいなくなったら
-        if battle.actor_index >= len(battle.players) + len(battle.enemies):
-            battle.actor_index = 0
+        battle.advance_turn()
 
     @staticmethod
     def update(battle):

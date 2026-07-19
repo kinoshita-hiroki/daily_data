@@ -94,6 +94,11 @@ class Battle:
             case _:
                 raise ValueError(f"Unknown target_type: {skill.target_type}")
 
+    def advance_turn(self):
+        self.actor_index = (
+            self.actor_index + 1
+        ) % len(self.all_actors())
+
     def process_turn_start(self, actor) -> None:
         if actor.is_alive():
             for effect in actor.effects[:]:
