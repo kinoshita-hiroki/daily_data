@@ -3,7 +3,6 @@ from dataclasses import dataclass
 from game.domain.effect.delayed_damage_effect import DelayedDamageEffect
 from game.domain.effect.stun_effect import StunEffect
 from game.domain.models.damage_calculator import DamageCalculator
-from game.domain.models.target_type import TargetType
 from game.domain.skills.skill import Skill
 from game.domain.skills.skill_util import calculate_study_time_ma
 
@@ -13,7 +12,6 @@ class KnowledgeEruption(Skill):
     name: str = "知識の噴火"
     mp_cost: int = 30
     duration: int = 3
-    target_type: TargetType = TargetType.ENEMY_SINGLE
 
     def apply(self, actor, target, battle):
         study_time_ma = calculate_study_time_ma()

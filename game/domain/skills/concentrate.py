@@ -1,14 +1,12 @@
 from dataclasses import dataclass
 
 from game.domain.effect.buff_effect import StatBuffEffect
-from game.domain.models.target_type import TargetType
 from game.domain.skills.skill import Skill
 
 
 @dataclass
 class Concentrate(Skill):
     name: str = "Concentrate"
-    target_type: TargetType = TargetType.ALLY_SINGLE
     buff_amount: int = 30
     duration: int = 3
 

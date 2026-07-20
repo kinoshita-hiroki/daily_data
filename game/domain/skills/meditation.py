@@ -2,7 +2,6 @@ from dataclasses import dataclass
 
 from game.domain.effect.buff_effect import StatBuffEffect
 from game.domain.models.damage_calculator import DamageCalculator
-from game.domain.models.target_type import TargetType
 from game.domain.skills.skill import Skill
 from game.domain.skills.skill_util import calculate_meditation_total_time
 
@@ -10,7 +9,6 @@ from game.domain.skills.skill_util import calculate_meditation_total_time
 @dataclass
 class Meditation(Skill):
     name: str = "瞑想の波動"
-    target_type: TargetType = TargetType.ENEMY_SINGLE
     buff_duration: int = 5
     # Meditation shouldn't cost MP to use since it recovers MP.
     # We will override mp_cost directly in initialization if needed,
