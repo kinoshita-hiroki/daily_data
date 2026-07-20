@@ -69,40 +69,17 @@ def skill_select_ui(player: Player) -> Skill:
     return skills[selected_name]
 
 def target_select_ui(battle: Battle, skill: Skill, actor: Player) -> Optional[Character]:
-    if skill.target_type == TargetType.OPPONENT_SINGLE:
-        enemies = battle.opponents_of(actor)  # [Enemy, ...]
+    candidates = skill.candidate_targets(actor, battle)
+    names = [candidate.name for candidate in candidates]
+    if len(names) == 0:
+        return None
 
-        # 表示用の名前リスト
-        names = [enemy.name for enemy in enemies]
-
-        # radio は「alive_enemies の中での位置」を返す
-        selected_pos = st.radio(
-            "対象を選択",
-            range(len(enemies)),
-            format_func=lambda i: names[i]
-        )
-
-        # 実際に返すのは battle.enemies の添字 ではなくオブジェクト
-        enemy = enemies[selected_pos]
-        return enemy
-
-    if skill.target_type == TargetType.ALLY_SINGLE:
-        players = battle.allies_of(actor)  # [Player, ...]
-
-        # 表示用の名前リスト
-        names = [player.name for player in players]
-
-        # radio は「alive_enemies の中での位置」を返す
-        selected_pos = st.radio(
-            "対象を選択",
-            range(len(players)),
-            format_func=lambda i: names[i]
-        )
-
-        # 実際に返すのは battle.enemies の添字 ではなくオブジェクト
-        player = players[selected_pos]
-        return player
-    return None
+    selected_pos = st.radio(
+        "対象を選択",
+        range(len(candidates)),
+        format_func=lambda i: names[i]
+    )
+    return candidates[selected_pos]
 
 def render_battle_result(battle):
     if not battle.is_finished():

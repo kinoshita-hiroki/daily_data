@@ -35,7 +35,7 @@ class Skill(ABC):
             if target.is_alive():
                 self.apply(actor, target, battle)
 
-    def available_targets(self, actor, battle):
+    def candidate_targets(self, actor, battle):
         match self.target_type:
             case TargetType.OPPONENT_SINGLE:
                 enemies = battle.opponents_of(actor)

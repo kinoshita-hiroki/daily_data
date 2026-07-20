@@ -15,7 +15,7 @@ class Enemy(Character):
         return skill
 
     def choose_target(self, skill, battle):
-        targets = skill.available_targets(self,battle)
+        targets = skill.candidate_targets(self,battle)
         return random.choice(targets)
 
     def decide_command(self, battle) -> Command:
