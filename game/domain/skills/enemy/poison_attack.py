@@ -1,4 +1,3 @@
-import random
 
 from game.domain.effect.dot_effect import DotEffect
 from game.domain.models.damage_calculator import DamageCalculator
@@ -6,16 +5,6 @@ from game.domain.skills.skill import Skill
 
 
 class PoisonAttack(Skill):
-    def use(self, actor, targets, battle):
-        if not self.check_cost(actor, battle):
-            return
-
-        self.pay_cost(actor)
-
-        # targets は list で統一
-
-        target = random.choice(targets)
-        self.apply(actor, target, battle)
     def apply(self, actor, target, battle):
         dmg = DamageCalculator.magical(actor, target, base_damage=actor.stats.magic_atk)
         target.take_damage(dmg)

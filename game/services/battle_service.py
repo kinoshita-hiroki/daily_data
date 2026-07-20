@@ -25,7 +25,7 @@ class BattleService:
 
     @staticmethod
     def execute_enemy_turn(battle,enemy:Enemy) -> None:
-        command = enemy.decide_command()
+        command = enemy.decide_command(battle)
         BattleService.execute_turn(
             battle,
             command

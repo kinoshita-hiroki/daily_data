@@ -35,6 +35,25 @@ class Skill(ABC):
             if target.is_alive():
                 self.apply(actor, target, battle)
 
+    def available_targets(self, actor, battle):
+        match self.target_type:
+            case TargetType.ENEMY_SINGLE:
+                enemies = battle.alive_enemies()
+                return enemies
+            case TargetType.ENEMY_ALL:
+                enemies = battle.alive_enemies()
+                return enemies
+            case TargetType.ALLY_SINGLE:
+                players = battle.alive_players()
+                return players
+            case TargetType.ALLY_ALL:
+                players = battle.alive_players()
+                return players
+            case TargetType.SELF:
+                return [actor]
+            case _:
+                raise ValueError(f"Unknown target_type: {self.target_type}")
+
     @abstractmethod
     def apply(self, actor, target, battle):
         pass

@@ -77,12 +77,12 @@ SKILL_REGISTRY = {
     "敵攻撃": lambda: EnemyAttack(
         name="敵攻撃",
         mp_cost=0,
-        target_type=TargetType.ALLY_ALL
+        target_type=TargetType.ALLY_SINGLE
     ),
     "ポイズンアタック": lambda: PoisonAttack(
         name="ポイズンアタック",
         mp_cost=0,
-        target_type=TargetType.ALLY_ALL
+        target_type=TargetType.ALLY_SINGLE
     ),
     "呪い": lambda: Curse(
         name="呪い",
