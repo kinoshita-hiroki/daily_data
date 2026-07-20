@@ -69,8 +69,8 @@ def skill_select_ui(player: Player) -> Skill:
     return skills[selected_name]
 
 def target_select_ui(battle: Battle, skill: Skill, actor: Player) -> Optional[Character]:
-    if skill.target_type == TargetType.ENEMY_SINGLE:
-        enemies = battle.alive_enemies()  # [Enemy, ...]
+    if skill.target_type == TargetType.OPPONENT_SINGLE:
+        enemies = battle.opponents_of(actor)  # [Enemy, ...]
 
         # 表示用の名前リスト
         names = [enemy.name for enemy in enemies]
@@ -87,7 +87,7 @@ def target_select_ui(battle: Battle, skill: Skill, actor: Player) -> Optional[Ch
         return enemy
 
     if skill.target_type == TargetType.ALLY_SINGLE:
-        players = battle.alive_players()  # [Player, ...]
+        players = battle.allies_of(actor)  # [Player, ...]
 
         # 表示用の名前リスト
         names = [player.name for player in players]

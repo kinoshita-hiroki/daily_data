@@ -22,7 +22,7 @@ SKILL_REGISTRY = {
     "攻撃": lambda: Attack(
         name="攻撃",
         mp_cost=0,
-        target_type=TargetType.ENEMY_SINGLE
+        target_type=TargetType.OPPONENT_SINGLE
     ),
     "身体強化": lambda: PhysicalBuff(
         name="身体強化",
@@ -32,17 +32,17 @@ SKILL_REGISTRY = {
     "強打": lambda: PowerStrike(
         name="強打", 
         mp_cost=5, 
-        target_type=TargetType.ENEMY_SINGLE
+        target_type=TargetType.OPPONENT_SINGLE
     ),
     "スピア": lambda: Spear(
         name="スピア", 
         mp_cost=8, 
-        target_type=TargetType.ENEMY_SINGLE
+        target_type=TargetType.OPPONENT_SINGLE
     ),
     "ファイヤーボール": lambda: Fireball(
         name="ファイヤーボール", 
         mp_cost=8, 
-        target_type=TargetType.ENEMY_SINGLE
+        target_type=TargetType.OPPONENT_SINGLE
     ),
     "ヒール": lambda: Heal(
         name="ヒール", 
@@ -62,52 +62,52 @@ SKILL_REGISTRY = {
     "勇者の切り込み": lambda: BraveAttack(
         name="勇者の切り込み",
         mp_cost=15,
-        target_type=TargetType.ENEMY_SINGLE
+        target_type=TargetType.OPPONENT_SINGLE
     ),
     "スキルアタック": lambda: SkillAttack(
         name="スキルアタック",
         hp_cost=30,
-        target_type=TargetType.ENEMY_SINGLE
+        target_type=TargetType.OPPONENT_SINGLE
     ),
     "ランページ": lambda: Rampage(
         name="ランページ",
         mp_cost=0,
-        target_type=TargetType.ALLY_ALL
+        target_type=TargetType.OPPONENT_ALL
     ),
     "敵攻撃": lambda: EnemyAttack(
         name="敵攻撃",
         mp_cost=0,
-        target_type=TargetType.ALLY_SINGLE
+        target_type=TargetType.OPPONENT_SINGLE
     ),
     "ポイズンアタック": lambda: PoisonAttack(
         name="ポイズンアタック",
         mp_cost=0,
-        target_type=TargetType.ALLY_SINGLE
+        target_type=TargetType.OPPONENT_SINGLE
     ),
     "呪い": lambda: Curse(
         name="呪い",
         mp_cost=0,
-        target_type=TargetType.ALLY_ALL
+        target_type=TargetType.OPPONENT_ALL
     ),
     "復讐": lambda: Vengeance(
         name="復讐",
         mp_cost=0,
-        target_type=TargetType.ALLY_ALL
+        target_type=TargetType.OPPONENT_ALL
     ),
     "知識の噴火": lambda: KnowledgeEruption(
         name="知識の噴火",
         mp_cost=40,
-        target_type=TargetType.ENEMY_SINGLE
+        target_type=TargetType.OPPONENT_SINGLE
     ),
     "ヨガストライク": lambda: YogaStrike(
         name="ヨガストライク",
         hp_cost=40,
-        target_type=TargetType.ENEMY_SINGLE
+        target_type=TargetType.OPPONENT_SINGLE
     ),
     "瞑想の波動": lambda: Meditation(
         name="瞑想の波動",
         mp_cost=0,
-        target_type=TargetType.ENEMY_SINGLE
+        target_type=TargetType.OPPONENT_SINGLE
     ),
 }
 def create_skills(skill_list):

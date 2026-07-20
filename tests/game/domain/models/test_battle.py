@@ -46,7 +46,7 @@ def test_battle_is_finished(mock_player, mock_enemy):
 def test_resolve_targets_enemy_single(mock_player, mock_enemy):
     battle = Battle(players=[mock_player], enemies=[mock_enemy])
     mock_skill = MagicMock()
-    mock_skill.target_type = TargetType.ENEMY_SINGLE
+    mock_skill.target_type = TargetType.OPPONENT_SINGLE
 
     targets = battle.resolve_targets(mock_skill, target=mock_enemy)
     assert len(targets) == 1

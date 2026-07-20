@@ -31,6 +31,17 @@ class Battle:
             if p.is_alive()
         ]
 
+    def allies_of(self, actor: Character) -> list[Character]:
+        if actor in self.players:
+            return self.alive_players()
+        return self.alive_enemies()
+
+
+    def opponents_of(self, actor: Character) -> list[Character]:
+        if actor in self.players:
+            return self.alive_enemies()
+        return self.alive_players()
+
     def execute(self, command: Command) -> None:
         actor = command.actor
         skill = command.skill
@@ -67,24 +78,23 @@ class Battle:
         必ず list を返す
         """
         match skill.target_type:
-            case TargetType.ENEMY_SINGLE:
+
+            case TargetType.OPPONENT_ALL:
+                return self.opponents_of(actor)
+
+            case TargetType.ALLY_ALL:
+                return self.allies_of(actor)    
+
+            case TargetType.OPPONENT_SINGLE:
                 # ターゲット指定がなくても動くようにガード
                 if target is None:
                      return []
                 return [target]
 
-            case TargetType.ENEMY_ALL:
-                enemies = self.alive_enemies()
-                return enemies
-
             case TargetType.ALLY_SINGLE:
                  if target is None:
                      return []
                  return [target]
-
-            case TargetType.ALLY_ALL:
-                players = self.alive_players()
-                return players
 
             case TargetType.SELF:
                 if actor is None:
