@@ -4,7 +4,6 @@ from game.domain.skills.attack import Attack
 from game.domain.skills.brave_attack import BraveAttack
 from game.domain.skills.concentrate import Concentrate
 from game.domain.skills.enemy.curse import Curse
-from game.domain.skills.enemy.enemy_attack import EnemyAttack
 from game.domain.skills.enemy.poison_attack import PoisonAttack
 from game.domain.skills.enemy.rampage import Rampage
 from game.domain.skills.enemy.vengeance import Vengeance
@@ -73,11 +72,6 @@ SKILL_REGISTRY = {
         name="ランページ",
         mp_cost=0,
         target_type=TargetType.OPPONENT_ALL
-    ),
-    "敵攻撃": lambda: EnemyAttack(
-        name="敵攻撃",
-        mp_cost=0,
-        target_type=TargetType.OPPONENT_SINGLE
     ),
     "ポイズンアタック": lambda: PoisonAttack(
         name="ポイズンアタック",

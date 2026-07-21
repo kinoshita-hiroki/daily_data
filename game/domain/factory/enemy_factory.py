@@ -6,15 +6,15 @@ from game.domain.models.stats import Stats
 ENEMY_DEFINITIONS = {
     "タイラント": {
         "base_stats": {"hp": 500, "max_hp": 500, "atk": 40, "defense":40, "magic_atk":40, "magic_resistance": 40},
-        "skills": ["敵攻撃", "ランページ"]
+        "skills": ["攻撃", "ランページ"]
     },
     "ハートレス": {
         "base_stats": {"hp": 2000, "max_hp": 2000, "atk": 60, "defense":70, "magic_atk":85, "magic_resistance": 70},
-        "skills": ["敵攻撃", "ランページ", "ポイズンアタック"]
+        "skills": ["攻撃", "ランページ", "ポイズンアタック"]
     },
     "怨霊": {
         "base_stats": {"hp": 5000, "max_hp": 5000, "atk": 80, "defense":80, "magic_atk":100, "magic_resistance": 80},
-        "skills": ["敵攻撃", "呪い", "復讐"]
+        "skills": ["攻撃", "呪い", "復讐"]
     }
 }
 

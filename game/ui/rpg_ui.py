@@ -5,7 +5,6 @@ import streamlit as st
 from game.domain.models.battle import Battle
 from game.domain.models.character import Character
 from game.domain.models.player import Player
-from game.domain.models.target_type import TargetType
 from game.domain.skills.skill import Skill
 from game.services.battle_service import BattleService
 from game.session_state import init_state
