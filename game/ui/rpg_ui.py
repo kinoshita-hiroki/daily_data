@@ -85,8 +85,10 @@ def render_battle_result(battle):
         return False
 
     if battle.is_victory():
+        battle.log.append("🎉 勝利！")
         st.success("勝利！")
     elif battle.is_lose():
+        battle.log.append("💀 全滅…")
         st.error("敗北…")
     if st.button("🔄 もう一度"):
         del st.session_state.battle

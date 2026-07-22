@@ -5,7 +5,6 @@ from game.domain.models.character import Character
 from game.domain.models.command import Command
 from game.domain.models.enemy import Enemy
 from game.domain.models.player import Player
-from game.domain.models.target_type import TargetType
 from game.domain.skills.skill import Skill
 
 
@@ -62,14 +61,12 @@ class Battle:
         )
 
     def is_victory(self) -> bool:
-        if len(self.alive_enemies()) <= 0:
-            self.log.append("🎉 勝利！")
+        if len(self.alive_enemies()) <= 0:          
             return True
         return False
 
     def is_lose(self) -> bool:
         if len(self.alive_players()) <= 0:
-            self.log.append("💀 全滅…")
             return True
         return False
 
