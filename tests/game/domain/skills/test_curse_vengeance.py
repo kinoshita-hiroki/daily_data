@@ -4,8 +4,8 @@ import pytest
 
 from game.domain.effect.curse_effect import CurseEffect
 from game.domain.models.stats import Stats
-from game.domain.skills.enemy.curse import Curse
-from game.domain.skills.enemy.vengeance import Vengeance
+from game.domain.skills.curse import Curse
+from game.domain.skills.vengeance import Vengeance
 
 
 @pytest.fixture
@@ -54,7 +54,7 @@ def battle():
 def test_curse_applies_effect(mock_char, mock_target, battle):
     skill = Curse(name="呪い", mp_cost=10)
     with patch("random.randint", return_value=10):
-        with patch("game.domain.skills.enemy.curse.calculate_condition_avg", return_value=5):
+        with patch("game.domain.skills.curse.calculate_condition_avg", return_value=5):
             skill.use(mock_char, [mock_target], battle)
 
     assert mock_char.stats.mp == 40

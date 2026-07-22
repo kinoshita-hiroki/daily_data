@@ -2,8 +2,7 @@ from unittest.mock import MagicMock
 
 import pytest
 
-from game.domain.skills.enemy.enemy_attack import EnemyAttack
-from game.domain.skills.enemy.poison_attack import PoisonAttack
+from game.domain.skills.poison_attack import PoisonAttack
 
 
 @pytest.fixture
@@ -63,20 +62,4 @@ def test_poison_attack_insufficient_mp(mock_char, mock_target, battle):
     assert any("MPが足りない" in msg for msg in battle.log)
     assert len(mock_target.effects) == 0
 
-def test_enemy_attack_mp_cost(mock_char, mock_target, battle):
-    skill = EnemyAttack(name="Slash", mp_cost=3)
-    targets = [mock_target]
 
-    skill.use(mock_char, targets, battle)
-
-    assert mock_char.stats.mp == 7  # 10 - 3
-    assert any("攻撃" in msg for msg in battle.log)
-
-def test_enemy_attack_insufficient_mp(mock_char, mock_target, battle):
-    skill = EnemyAttack(name="Slash", mp_cost=15)
-    targets = [mock_target]
-
-    skill.use(mock_char, targets, battle)
-
-    assert mock_char.stats.mp == 10  # No change
-    assert any("MPが足りない" in msg for msg in battle.log)

@@ -2,7 +2,7 @@ from unittest.mock import MagicMock
 
 import pytest
 
-from game.domain.skills.enemy.rampage import Rampage
+from game.domain.skills.rampage import Rampage
 
 
 @pytest.fixture
