@@ -1,7 +1,12 @@
+from __future__ import annotations
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
+from typing import Optional, List, TYPE_CHECKING
 
 from game.domain.models.target_type import TargetType
+
+if TYPE_CHECKING:
+    from game.domain.models.character import Character
 
 
 @dataclass
@@ -53,6 +58,20 @@ class Skill(ABC):
                 return [actor]
             case _:
                 raise ValueError(f"Unknown target_type: {self.target_type}")
+
+
+    def resolve_targets(self, battle, target: Optional[Character] = None, actor: Optional[Character] = None) -> List[Character]:
+        """
+        必ず list を返す
+        """
+        if self.target_type.requires_target():
+            if target is None:
+                return []
+            return [target]
+
+        if actor is None:
+            return []
+        return self.candidate_targets(actor, battle)
 
     @abstractmethod
     def apply(self, actor, target, battle):

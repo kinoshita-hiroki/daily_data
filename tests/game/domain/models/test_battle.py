@@ -4,6 +4,7 @@ import pytest
 
 from game.domain.models.battle import Battle
 from game.domain.models.target_type import TargetType
+from game.domain.skills.skill import Skill
 
 
 @pytest.fixture
@@ -42,45 +43,39 @@ def test_battle_is_finished(mock_player, mock_enemy):
     assert battle.is_finished() is True
 
 
+class DummySkill(Skill):
+    def apply(self, actor, target, battle):
+        pass
+
 
 def test_resolve_targets_enemy_single(mock_player, mock_enemy):
     battle = Battle(players=[mock_player], enemies=[mock_enemy])
-    mock_skill = MagicMock()
-    mock_skill.target_type = TargetType.OPPONENT_SINGLE
+    skill = DummySkill(name="TestSkill", target_type=TargetType.OPPONENT_SINGLE)
 
-    targets = battle.resolve_targets(mock_skill, target=mock_enemy)
+    targets = skill.resolve_targets(battle, target=mock_enemy)
     assert len(targets) == 1
     assert targets[0] == mock_enemy
 
 def test_resolve_targets_enemy_all(mock_player, mock_enemy):
     battle = Battle(players=[mock_player], enemies=[mock_enemy])
-    mock_skill = MagicMock()
-    mock_skill.target_type = TargetType.OPPONENT_ALL
-    # candidate_targets も呼ばれるはずなので mock するか、あるいは実体を利用する。
-    # ここでは mock_skill の candidate_targets を定義
-    mock_skill.candidate_targets.return_value = [mock_enemy]
+    skill = DummySkill(name="TestSkill", target_type=TargetType.OPPONENT_ALL)
 
-    targets = battle.resolve_targets(mock_skill, actor=mock_player)
+    targets = skill.resolve_targets(battle, actor=mock_player)
     assert len(targets) == 1
     assert targets[0] == mock_enemy
-    mock_skill.candidate_targets.assert_called_once_with(mock_player, battle)
 
 def test_resolve_targets_self(mock_player, mock_enemy):
     battle = Battle(players=[mock_player], enemies=[mock_enemy])
-    mock_skill = MagicMock()
-    mock_skill.target_type = TargetType.SELF
-    mock_skill.candidate_targets.return_value = [mock_player]
+    skill = DummySkill(name="TestSkill", target_type=TargetType.SELF)
 
-    targets = battle.resolve_targets(mock_skill, actor=mock_player)
+    targets = skill.resolve_targets(battle, actor=mock_player)
     assert len(targets) == 1
     assert targets[0] == mock_player
-    mock_skill.candidate_targets.assert_called_once_with(mock_player, battle)
 
 def test_resolve_targets_no_target(mock_player, mock_enemy):
     battle = Battle(players=[mock_player], enemies=[mock_enemy])
-    mock_skill = MagicMock()
-    mock_skill.target_type = TargetType.OPPONENT_SINGLE
+    skill = DummySkill(name="TestSkill", target_type=TargetType.OPPONENT_SINGLE)
 
-    targets = battle.resolve_targets(mock_skill, target=None)
+    targets = skill.resolve_targets(battle, target=None)
     assert len(targets) == 0
 

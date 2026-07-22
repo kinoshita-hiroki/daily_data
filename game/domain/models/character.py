@@ -1,9 +1,13 @@
+from __future__ import annotations
 from dataclasses import dataclass
+from typing import TYPE_CHECKING
 
 from game.domain.effect.effect import Effect
 from game.domain.models.damage_calculator import DamageCalculator
 from game.domain.models.stats import Stats
-from game.domain.skills.skill import Skill
+
+if TYPE_CHECKING:
+    from game.domain.skills.skill import Skill
 
 
 @dataclass

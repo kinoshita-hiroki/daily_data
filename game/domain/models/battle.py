@@ -44,7 +44,7 @@ class Battle:
     def execute(self, command: Command) -> None:
         actor = command.actor
         skill = command.skill
-        targets = self.resolve_targets(skill, command.target, actor)
+        targets = skill.resolve_targets(self, command.target, actor)
 
         skill.use(actor, targets, self)
 
@@ -69,19 +69,6 @@ class Battle:
         if len(self.alive_players()) <= 0:
             return True
         return False
-
-    def resolve_targets(self, skill: Skill, target: Optional[Character] = None, actor: Optional[Character] = None) -> List[Character]:
-        """
-        必ず list を返す
-        """
-        if skill.target_type.requires_target():
-            if target is None:
-                return []
-            return [target]
-
-        if actor is None:
-            return []
-        return skill.candidate_targets(actor, self)
 
 
     def advance_turn(self):
