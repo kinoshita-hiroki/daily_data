@@ -1,11 +1,10 @@
 from dataclasses import dataclass, field
-from typing import List, Optional
+from typing import List
 
 from game.domain.models.character import Character
 from game.domain.models.command import Command
 from game.domain.models.enemy import Enemy
 from game.domain.models.player import Player
-from game.domain.skills.skill import Skill
 
 
 @dataclass
