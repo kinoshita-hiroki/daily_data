@@ -77,32 +77,15 @@ class Battle:
         """
         必ず list を返す
         """
-        match skill.target_type:
+        if skill.target_type.requires_target():
+            if target is None:
+                return []
+            return [target]
 
-            case TargetType.OPPONENT_ALL:
-                return self.opponents_of(actor)
+        if actor is None:
+            return []
+        return skill.candidate_targets(actor, self)
 
-            case TargetType.ALLY_ALL:
-                return self.allies_of(actor)    
-
-            case TargetType.OPPONENT_SINGLE:
-                # ターゲット指定がなくても動くようにガード
-                if target is None:
-                     return []
-                return [target]
-
-            case TargetType.ALLY_SINGLE:
-                 if target is None:
-                     return []
-                 return [target]
-
-            case TargetType.SELF:
-                if actor is None:
-                    return []
-                return [actor]
-
-            case _:
-                raise ValueError(f"Unknown target_type: {skill.target_type}")
 
     def advance_turn(self):
         self.actor_index = (
